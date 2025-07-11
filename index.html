@@ -27,53 +27,38 @@
     
     <!-- 第二屏 - 个人信息 -->
     <section class="profile-section">
-        <div class="profile-container">
-            <div class="profile-image">
-                <!-- 头像占位图 -->
-                <img src="https://blog.skyshadow.fun/img/avatar.webp" alt="天影大侠头像">
-            </div>
-            <!-- 头像下方开发者介绍 -->
-            <div class="w-full flex flex-col items-center mt-8">
-            <div id="spaceship"
-                class="relative flex flex-col items-center
-                bg-gradient-to-br from-[#23243a]/80 to-[#181c2a]/80
-                backdrop-blur-md border border-cyan-400/30
-                shadow-[0_0_32px_8px_rgba(79,172,254,0.18)]
-                rounded-[2.5rem] px-10 py-8 max-w-xl w-[92vw]
-                ring-2 ring-cyan-400/20
-                transition-transform duration-700
-                [transform:rotateY(18deg)_rotateX(10deg)_scale(1.04)]
-                will-change-transform
-                "
-                onmouseenter="spaceshipStraighten(this)"
-                onmouseleave="spaceshipTilt(this)"
-                style="box-shadow: 0 0 60px 8px rgba(79,172,254,0.10), 0 8px 32px 0 #0ff2;"
-            >
-                <!-- 舱窗装饰 -->
-                <span class="absolute left-8 top-3 w-8 h-3 bg-cyan-300/30 rounded-full blur-[2px]"></span>
-                <span class="absolute right-8 top-6 w-4 h-2 bg-cyan-100/40 rounded-full blur-[1.5px]"></span>
-                <span class="absolute left-1/2 -translate-x-1/2 -top-4 w-16 h-4 bg-cyan-400/20 rounded-full blur-[6px]"></span>
-                <!-- 舱体内容 -->
-                <div class="text-cyan-100 text-lg font-mono mb-2 drop-shadow">Hi, I'm SkyShadowHero.</div>
-                <div class="text-cyan-300 text-base font-mono mb-3 drop-shadow">A passionate developer, explorer &amp; open source enthusiast.</div>
-                <div class="inline-block bg-gradient-to-r from-[#4facfe] to-[#00f2fe] bg-clip-text text-transparent font-mono text-sm mb-4">Web / Python / Godot / Minecraft</div>
-                <div class="flex justify-center gap-7 mt-2">
-                <!-- 替换为你的iconfont symbol和链接 -->
-                <a href="https://github.com/SkyShadowHero" target="_blank" class="hover:scale-125 transition-transform">
-                    <svg class="icon-github w-8 h-8 fill-[#7ecfff] hover:fill-white transition-colors" aria-hidden="true"><use xlink:href="#icon-github"></use></svg>
-                </a>
-                <a href="https://blog.skyshadow.fun" target="_blank" class="hover:scale-125 transition-transform">
-                    <svg class="icon-xieboke w-8 h-8 fill-[#7ecfff] hover:fill-white transition-colors" aria-hidden="true"><use xlink:href="#icon-blog"></use></svg>
-                </a>
-                <a href="mailto:your@email.com" class="hover:scale-125 transition-transform">
-                    <svg class="icon-mail w-8 h-8 fill-[#7ecfff] hover:fill-white transition-colors" aria-hidden="true"><use xlink:href="#icon-email"></use></svg>
-                </a>
-                </div>
-                <!-- 尾焰装饰 -->
-                <span class="absolute left-1/2 -translate-x-1/2 -bottom-6 w-16 h-6 bg-cyan-400/30 rounded-full blur-[8px]"></span>
-            </div>
+    <div class="profile-container">
+        <div class="profile-image">
+        <!-- 头像占位图 -->
+        <img src="https://blog.skyshadow.fun/img/avatar.webp" alt="天影大侠头像">
+        </div>
+        <!-- 动态陨石和开发者信息 -->
+        <div class="w-full flex flex-col items-center mt-8 relative" style="height: 220px;">
+        <!-- 陨石canvas -->
+        <canvas id="meteor-bg" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
+        <!-- 文字和icon在陨石上，位置居中 -->
+        <div id="meteor-info"
+            class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
+            flex flex-col items-center select-none"
+            style="width: 260px; pointer-events: none;">
+            <div class="text-cyan-100 text-lg font-mono mb-2 drop-shadow pointer-events-auto text-center">Hi, I'm SkyShadowHero.</div>
+            <div class="text-cyan-300 text-base font-mono mb-3 drop-shadow pointer-events-auto text-center">A passionate developer, explorer &amp; open source enthusiast.</div>
+            <div class="inline-block bg-gradient-to-r from-[#4facfe] to-[#00f2fe] bg-clip-text text-transparent font-mono text-sm mb-4 pointer-events-auto text-center">Web / Python / Godot / Minecraft</div>
+            <div class="flex justify-center gap-7 mt-2 pointer-events-auto">
+            <!-- 替换为你的iconfont symbol和链接 -->
+            <a href="https://github.com/SkyShadowHero" target="_blank" class="hover:scale-125 transition-transform">
+                <svg class="icon-github w-8 h-8 fill-[#7ecfff] hover:fill-white transition-colors" aria-hidden="true"><use xlink:href="#icon-github"></use></svg>
+            </a>
+            <a href="https://blog.skyshadow.fun" target="_blank" class="hover:scale-125 transition-transform">
+                <svg class="icon-xieboke w-8 h-8 fill-[#7ecfff] hover:fill-white transition-colors" aria-hidden="true"><use xlink:href="#icon-blog"></use></svg>
+            </a>
+            <a href="mailto:your@email.com" class="hover:scale-125 transition-transform">
+                <svg class="icon-mail w-8 h-8 fill-[#7ecfff] hover:fill-white transition-colors" aria-hidden="true"><use xlink:href="#icon-email"></use></svg>
+            </a>
             </div>
         </div>
+        </div>
+    </div>
     </section>
     
     <!-- 页脚 -->

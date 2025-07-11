@@ -624,8 +624,49 @@ function spaceshipStraighten(el) {
 function spaceshipTilt(el) {
   el.style.transform = "rotateY(18deg) rotateX(10deg) scale(1.04)";
 }
-// 页面加载时自动倾斜
-window.addEventListener('DOMContentLoaded', () => {
-  const el = document.getElementById('spaceship');
-  if (el) spaceshipTilt(el);
-});
+// 动态陨石背景（仅一个大陨石承载信息）
+(function() {
+  let canvas, ctx, width, height;
+  let meteor = {
+    x: 0, y: 0, r: 120, rx: 1.2, ry: 0.85, angle: 0, spin: 0.008, color: '#b0b8c9', alpha: 0.22
+  };
+
+  function resize() {
+    canvas.width = width = canvas.offsetWidth;
+    canvas.height = height = canvas.offsetHeight;
+    meteor.x = width / 2;
+    meteor.y = height / 2 + 10;
+  }
+
+  function drawMeteor() {
+    ctx.clearRect(0, 0, width, height);
+    ctx.save();
+    ctx.globalAlpha = meteor.alpha;
+    ctx.translate(meteor.x, meteor.y);
+    ctx.rotate(meteor.angle);
+    ctx.scale(meteor.rx, meteor.ry);
+    ctx.beginPath();
+    ctx.ellipse(0, 0, meteor.r, meteor.r, 0, 0, 2 * Math.PI);
+    ctx.fillStyle = meteor.color;
+    ctx.shadowColor = "#7ecfff";
+    ctx.shadowBlur = 32;
+    ctx.fill();
+    ctx.restore();
+
+    meteor.angle += meteor.spin;
+  }
+
+  function animate() {
+    drawMeteor();
+    requestAnimationFrame(animate);
+  }
+
+  window.addEventListener('DOMContentLoaded', function() {
+    canvas = document.getElementById('meteor-bg');
+    if (!canvas) return;
+    ctx = canvas.getContext('2d');
+    resize();
+    window.addEventListener('resize', resize);
+    animate();
+  });
+})();

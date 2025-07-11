@@ -19,7 +19,9 @@ function createStars(width, height) {
             size: Math.random() * STAR_SIZE + 0.5,
             opacity: Math.random() * (STAR_MAX_OPACITY - STAR_MIN_OPACITY) + STAR_MIN_OPACITY,
             twinkle: Math.random() * Math.PI * 2,
-            speed: Math.random() * 0.005 + 0.002
+            speed: Math.random() * 0.005 + 0.002,
+            vx: (Math.random() - 0.5) * 0.08, // X方向速度
+            vy: (Math.random() - 0.5) * 0.08  // Y方向速度
         });
     }
 }
@@ -39,8 +41,19 @@ function drawStarBackground(ctx, width, height) {
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, width, height);
 
-    // 星星闪烁
+    // 星星移动和闪烁
     for (let star of stars) {
+        // 星星移动
+        star.x += star.vx;
+        star.y += star.vy;
+
+        // 边界循环
+        if (star.x < 0) star.x += width;
+        if (star.x > width) star.x -= width;
+        if (star.y < 0) star.y += height;
+        if (star.y > height) star.y -= height;
+
+        // 闪烁
         star.twinkle += star.speed;
         let opacity = star.opacity + Math.sin(star.twinkle) * 0.4;
         opacity = Math.max(STAR_MIN_OPACITY, Math.min(STAR_MAX_OPACITY, opacity));
@@ -243,6 +256,7 @@ Scene.prototype.update = function(time) {
     }
 
 };
+
 
 Scene.prototype.draw = function()
 {

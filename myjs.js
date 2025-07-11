@@ -1,47 +1,20 @@
-// 星空背景设置
-const STAR_NUM = 120; // 星星数量
-const STAR_COLOR = "#fff";
-const STAR_SIZE = 1.2;
-const STAR_MIN_OPACITY = 0.2;
-const STAR_MAX_OPACITY = 1;
-const STAR_SPEED = 0.04; // 星星移动速度更快
-
-let stars = [];
-let gradientAngle = 0;
-
-// 生成星星
-function createStars(width, height) {
-    stars = [];
-    for (let i = 0; i < STAR_NUM; i++) {
-        stars.push({
-            x: Math.random() * width,
-            y: Math.random() * height,
-            size: Math.random() * STAR_SIZE + 0.7,
-            opacity: Math.random() * (STAR_MAX_OPACITY - STAR_MIN_OPACITY) + STAR_MIN_OPACITY,
-            twinkle: Math.random() * Math.PI * 2,
-            speed: Math.random() * 0.03 + 0.015, // 闪烁速度更快
-            vx: (Math.random() - 0.5) * 0.25, // X方向速度更大
-            vy: (Math.random() - 0.5) * 0.25  // Y方向速度更大
-        });
-    }
-}
-
 // 绘制星空背景
 function drawStarBackground(ctx, width, height) {
-    // 动态渐变色（更明显）
+    // 使用径向渐变实现更自然的宇宙色
     gradientAngle += 0.01;
-    let r = width * 0.8;
-    let x1 = width / 2 + Math.cos(gradientAngle) * r;
-    let y1 = height / 2 + Math.sin(gradientAngle) * r;
-    let x2 = width / 2 - Math.cos(gradientAngle) * r;
-    let y2 = height / 2 - Math.sin(gradientAngle) * r;
-    let gradient = ctx.createLinearGradient(x1, y1, x2, y2);
-    gradient.addColorStop(0, "#0a0c1b");
-    gradient.addColorStop(0.3, "#1a2250");
-    gradient.addColorStop(0.5, "#23243a");
-    gradient.addColorStop(0.7, "#2e3c6d");
-    gradient.addColorStop(1, "#181c2a");
-    ctx.fillStyle = gradient;
+    // 渐变中心随时间缓慢移动
+    let cx = width / 2 + Math.cos(gradientAngle) * width * 0.12;
+    let cy = height / 2 + Math.sin(gradientAngle) * height * 0.12;
+    let maxR = Math.max(width, height) * 0.75;
+    let radial = ctx.createRadialGradient(
+        cx, cy, 0,
+        cx, cy, maxR
+    );
+    radial.addColorStop(0, "#23243a");      // 中心深蓝
+    radial.addColorStop(0.25, "#181c2a");   // 过渡
+    radial.addColorStop(0.55, "#0a0c1b");   // 边缘更深
+    radial.addColorStop(1, "#000010");      // 最外圈接近黑色
+    ctx.fillStyle = radial;
     ctx.fillRect(0, 0, width, height);
 
     // 星星移动和闪烁
@@ -58,7 +31,7 @@ function drawStarBackground(ctx, width, height) {
 
         // 闪烁（更明显）
         star.twinkle += star.speed;
-        let opacity = star.opacity + Math.sin(star.twinkle) * 0.7; // 闪烁幅度更大
+        let opacity = star.opacity + Math.sin(star.twinkle) * 0.7;
         opacity = Math.max(STAR_MIN_OPACITY, Math.min(STAR_MAX_OPACITY, opacity));
         ctx.save();
         ctx.globalAlpha = opacity;
@@ -70,7 +43,8 @@ function drawStarBackground(ctx, width, height) {
         ctx.fill();
         ctx.restore();
     }
-}        
+}
+
 // --- 地球动画设置 ---
 settings = {
     POINTS : 200,

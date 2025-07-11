@@ -47,40 +47,6 @@ canvas {
     animation: bounce 2s infinite;
 }
 
-/* 第二屏 - 个人信息 */
-.profile-section {
-    min-height: 100vh;
-    padding: 100px 0;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.profile-container {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
-
-.profile-image {
-    width: 280px;
-    height: 280px;
-    border-radius: 50%;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-    position: relative;
-    z-index: 2;
-}
-
-.profile-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
 
 
 /* 页脚 */

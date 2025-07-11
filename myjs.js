@@ -56,19 +56,21 @@ function drawStarBackground(ctx, width, height) {
         if (star.y < 0) star.y += height;
         if (star.y > height) star.y -= height;
 
-        // 闪烁（更明显）
+        // 闪烁（允许熄灭，最低为0）
         star.twinkle += star.speed;
-        let opacity = star.opacity + Math.sin(star.twinkle) * 0.7; // 闪烁幅度更大
-        opacity = Math.max(STAR_MIN_OPACITY, Math.min(STAR_MAX_OPACITY, opacity));
-        ctx.save();
-        ctx.globalAlpha = opacity;
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.size, 0, 2 * Math.PI);
-        ctx.fillStyle = STAR_COLOR;
-        ctx.shadowColor = STAR_COLOR;
-        ctx.shadowBlur = 10;
-        ctx.fill();
-        ctx.restore();
+        let opacity = star.opacity + Math.sin(star.twinkle) * 1.0; // 幅度更大
+        opacity = Math.max(0, Math.min(STAR_MAX_OPACITY, opacity)); // 允许为0
+        if (opacity > 0.01) { // 熄灭时不绘制
+            ctx.save();
+            ctx.globalAlpha = opacity;
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, star.size, 0, 2 * Math.PI);
+            ctx.fillStyle = STAR_COLOR;
+            ctx.shadowColor = STAR_COLOR;
+            ctx.shadowBlur = 10;
+            ctx.fill();
+            ctx.restore();
+        }
     }
 }
 // --- 地球动画设置 ---

@@ -28,26 +28,30 @@
                     <img src="https://blog.skyshadow.fun/img/avatar.webp" alt="天影大侠头像">
                 </div>
                 <!-- 头像下方开发者介绍 -->
-                <div class="dev-info">
-                    <div class="dev-desc">
-                        Hi, I'm SkyShadowHero.<br>
-                        A passionate developer, explorer & open source enthusiast.<br>
-                        <span class="dev-stack">Web / Python / Godot / Minecraft</span>
+                <div class="relative mt-8 flex flex-col items-center">
+                <div
+                    class="dev-card bg-gradient-to-br from-[#181c2a]/80 to-[#23243a]/80 shadow-2xl rounded-2xl px-8 py-6 max-w-md w-[90vw] text-center border border-white/10 transition-transform duration-500 will-change-transform"
+                    style="perspective:1200px;"
+                    onmousemove="card3d(event, this)"
+                    onmouseleave="cardReset(this)"
+                >
+                    <div class="text-[#eaf6ff] text-lg font-mono mb-2">Hi, I'm SkyShadowHero.</div>
+                    <div class="text-[#7ecfff] text-base font-mono mb-4">A passionate developer, explorer &amp; open source enthusiast.</div>
+                    <div class="inline-block bg-gradient-to-r from-[#4facfe] to-[#00f2fe] bg-clip-text text-transparent font-mono text-sm mb-4">Web / Python / Godot / Minecraft</div>
+                    <div class="flex justify-center gap-6 mt-4">
+                    <!-- 替换为你的iconfont symbol和链接 -->
+                    <a href="https://github.com/SkyShadowHero" target="_blank" class="transition-transform hover:scale-110">
+                        <svg class="icon w-7 h-7 fill-[#7ecfff] hover:fill-white transition-colors" aria-hidden="true"><use xlink:href="#icon-github"></use></svg>
+                    </a>
+                    <a href="https://blog.skyshadow.fun" target="_blank" class="transition-transform hover:scale-110">
+                        <svg class="icon w-7 h-7 fill-[#7ecfff] hover:fill-white transition-colors" aria-hidden="true"><use xlink:href="#icon-blog"></use></svg>
+                    </a>
+                    <a href="mailto:your@email.com" class="transition-transform hover:scale-110">
+                        <svg class="icon w-7 h-7 fill-[#7ecfff] hover:fill-white transition-colors" aria-hidden="true"><use xlink:href="#icon-email"></use></svg>
+                    </a>
                     </div>
-                    <div class="dev-icons">
-                        <!-- 替换下面的svg为你的阿里图标库icon，href为跳转链接 -->
-                        <a href="https://github.com/SkyShadowHero" target="_blank" class="dev-icon" title="GitHub">
-                            <svg class="icon" aria-hidden="true"><use xlink:href="#icon-github"></use></svg>
-                        </a>
-                        <a href="https://blog.skyshadow.fun" target="_blank" class="dev-icon" title="Blog">
-                            <svg class="icon" aria-hidden="true"><use xlink:href="#icon-blog"></use></svg>
-                        </a>
-                        <a href="mailto:your@email.com" class="dev-icon" title="Email">
-                            <svg class="icon" aria-hidden="true"><use xlink:href="#icon-email"></use></svg>
-                        </a>
-                        <!-- 更多icon按需添加 -->
-                    </div>
-                </div>                
+                </div>
+                </div>      
             </div>
         </div>
     </section>

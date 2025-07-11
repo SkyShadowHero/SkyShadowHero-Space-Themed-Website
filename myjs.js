@@ -617,3 +617,15 @@ window.onload = function() {
         }, 800);
     });
 };
+
+function spaceshipStraighten(el) {
+  el.style.transform = "rotateY(0deg) rotateX(0deg) scale(1.08)";
+}
+function spaceshipTilt(el) {
+  el.style.transform = "rotateY(18deg) rotateX(10deg) scale(1.04)";
+}
+// 页面加载时自动倾斜
+window.addEventListener('DOMContentLoaded', () => {
+  const el = document.getElementById('spaceship');
+  if (el) spaceshipTilt(el);
+});

@@ -51,7 +51,7 @@ footer {
     color: rgba(255, 255, 255, 1);
     font-size: 1rem;
     letter-spacing: 0.5px;
-    font-weight: 200; /* 让文字更细 */
+    font-weight: 300; /* 让文字更细 */
 }
 
 /* 动画 */

@@ -195,11 +195,12 @@ canvas {
     transition: none;
 }
 
-/* 删除icon下的小短线 */
-.icon-container::after {
+/* 删除icon下的小短线（彻底移除伪元素） */
+.icon-container::after,
+.icon-container::before {
     display: none !important;
+    content: none !important;
 }
-
 
 .icon-container:hover,
 .icon-container:hover::before,

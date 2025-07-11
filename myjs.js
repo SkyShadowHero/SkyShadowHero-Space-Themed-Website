@@ -111,11 +111,11 @@ Scene.prototype.enable = function() {
     var that = this;
 
     window.requestAnimFrame = (function(){
-            return  window.requestAnimationFrame       || 
-                    window.webkitRequestAnimationFrame || 
-                    window.mozRequestAnimationFrame    || 
-                    window.oRequestAnimationFrame      || 
-                    window.msRequestAnimationFrame     
+          return  window.requestAnimationFrame       || 
+                  window.webkitRequestAnimationFrame || 
+                  window.mozRequestAnimationFrame    || 
+                  window.oRequestAnimationFrame      || 
+                  window.msRequestAnimationFrame     
     })();
 
     this.animate(new Date().getTime());

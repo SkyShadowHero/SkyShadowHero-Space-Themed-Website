@@ -59,10 +59,10 @@ canvas {
 
 .profile-container {
     display: flex;
-    flex-direction: column; /* 改为垂直方向 */
-    gap: 40px; /* 垂直方向每个子项之间的间隙 */
-    align-items: center; /* 交叉轴（水平方向）居中 */
-    justify-content: center; /* 主轴（垂直方向）居中 */
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+    justify-content: center;
 }
 
 .profile-image {
@@ -86,7 +86,6 @@ canvas {
     flex: 1;
     padding: 40px;
     border-radius: 20px;
-    /* 增强玻璃效果 */
     background: rgba(0, 5, 20, 0.25);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);

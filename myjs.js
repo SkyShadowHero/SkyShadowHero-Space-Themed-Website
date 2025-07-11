@@ -4,7 +4,7 @@ const STAR_COLOR = "#fff";
 const STAR_SIZE = 1.2;
 const STAR_MIN_OPACITY = 0.2;
 const STAR_MAX_OPACITY = 1;
-const STAR_SPEED = 0.04; // 星星移动速度更快
+const STAR_SPEED = 0.1; // 星星移动速度更快
 
 let stars = [];
 let gradientAngle = 0;

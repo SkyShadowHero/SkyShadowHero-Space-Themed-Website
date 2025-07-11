@@ -135,101 +135,97 @@ footer {
     }
 }
 
-/* 移动端优化 */
-@media (max-width: 992px) {
-    .profile-image {
-        width: 220px;
-        height: 220px;
-    }
-    
-    .profile-info {
-        padding: 30px;
-    }
-    
-    .section-title {
-        font-size: 2.3rem;
-    }
-    
-    .profile-description {
-        font-size: 1.1rem;
-    }
-    
-    .icon-container {
-        width: 60px;
-        height: 60px;
-    }
-    
-    .icon-container i {
-        font-size: 24px;
-    }
+/* 开发者信息卡片 */
+.dev-info {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(20, 24, 40, 0.85);
+    border-radius: 18px;
+    box-shadow: 0 4px 24px 0 rgba(31, 38, 135, 0.10);
+    padding: 28px 32px 18px 32px;
+    max-width: 420px;
+    width: 90vw;
+    backdrop-filter: blur(8px) saturate(120%);
+    border: 1px solid rgba(80,120,255,0.10);
 }
 
-@media (max-width: 768px) {
-    .profile-container {
-        flex-direction: column;
-        text-align: center;
+.dev-desc {
+    color: #eaf6ff;
+    font-size: 1.18rem;
+    font-family: 'Fira Mono', 'JetBrains Mono', 'Consolas', monospace;
+    text-align: center;
+    margin-bottom: 18px;
+    letter-spacing: 0.02em;
+    line-height: 1.7;
+}
+
+.dev-stack {
+    display: inline-block;
+    margin-top: 8px;
+    color: #7ecfff;
+    font-size: 0.98rem;
+    font-family: 'Fira Mono', 'JetBrains Mono', 'Consolas', monospace;
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.dev-icons {
+    display: flex;
+    gap: 28px;
+    justify-content: center;
+    margin-top: 4px;
+}
+
+.dev-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(60, 80, 120, 0.18);
+    transition: background 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+}
+
+.dev-icon:hover {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    box-shadow: 0 2px 12px 0 rgba(79,172,254,0.18);
+}
+
+.dev-icon .icon {
+    width: 26px;
+    height: 26px;
+    fill: #7ecfff;
+    transition: fill 0.2s;
+}
+
+.dev-icon:hover .icon {
+    fill: #fff;
+}
+
+/* 响应式 */
+@media (max-width: 600px) {
+    .dev-info {
+        padding: 18px 8vw 12px 8vw;
+        max-width: 98vw;
     }
-    
-    .section-title::after {
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    
-    .skills {
-        justify-content: center;
-    }
-    
-    .social-icons {
-        justify-content: center;
-    }
-    
-    .profile-info {
-        padding: 25px;
-    }
-    
-    .section-title {
-        font-size: 2rem;
-    }
-    
-    .profile-description {
+    .dev-desc {
         font-size: 1rem;
     }
-    
-    .icon-container {
-        width: 55px;
-        height: 55px;
+    .dev-icons {
+        gap: 18px;
     }
-}
-
-@media (max-width: 480px) {
-    .profile-image {
-        width: 180px;
-        height: 180px;
+    .dev-icon {
+        width: 36px;
+        height: 36px;
     }
-    
-    .profile-info {
-        padding: 20px;
-    }
-    
-    .section-title {
-        font-size: 1.8rem;
-    }
-    
-    .skill-tag {
-        padding: 6px 15px;
-        font-size: 0.85rem;
-    }
-    
-    .social-icons {
-        gap: 15px;
-    }
-    
-    .icon-container {
-        width: 50px;
-        height: 50px;
-    }
-    
-    .icon-container i {
-        font-size: 22px;
+    .dev-icon .icon {
+        width: 20px;
+        height: 20px;
     }
 }

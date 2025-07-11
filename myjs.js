@@ -1,4 +1,62 @@
-// 地球动画设置
+// 星空背景设置
+const STAR_NUM = 120; // 星星数量
+const STAR_COLOR = "#fff";
+const STAR_SIZE = 1.2;
+const STAR_MIN_OPACITY = 0.3;
+const STAR_MAX_OPACITY = 1;
+const STAR_SPEED = 0.02;
+
+let stars = [];
+let gradientAngle = 0;
+
+// 生成星星
+function createStars(width, height) {
+    stars = [];
+    for (let i = 0; i < STAR_NUM; i++) {
+        stars.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            size: Math.random() * STAR_SIZE + 0.5,
+            opacity: Math.random() * (STAR_MAX_OPACITY - STAR_MIN_OPACITY) + STAR_MIN_OPACITY,
+            twinkle: Math.random() * Math.PI * 2,
+            speed: Math.random() * 0.005 + 0.002
+        });
+    }
+}
+
+// 绘制星空背景
+function drawStarBackground(ctx, width, height) {
+    // 动态渐变色
+    gradientAngle += 0.002;
+    let x1 = width / 2 + Math.cos(gradientAngle) * width;
+    let y1 = height / 2 + Math.sin(gradientAngle) * height;
+    let x2 = width / 2 - Math.cos(gradientAngle) * width;
+    let y2 = height / 2 - Math.sin(gradientAngle) * height;
+    let gradient = ctx.createLinearGradient(x1, y1, x2, y2);
+    gradient.addColorStop(0, "#0a0c1b");
+    gradient.addColorStop(0.5, "#181c2a");
+    gradient.addColorStop(1, "#23243a");
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, width, height);
+
+    // 星星闪烁
+    for (let star of stars) {
+        star.twinkle += star.speed;
+        let opacity = star.opacity + Math.sin(star.twinkle) * 0.4;
+        opacity = Math.max(STAR_MIN_OPACITY, Math.min(STAR_MAX_OPACITY, opacity));
+        ctx.save();
+        ctx.globalAlpha = opacity;
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size, 0, 2 * Math.PI);
+        ctx.fillStyle = STAR_COLOR;
+        ctx.shadowColor = STAR_COLOR;
+        ctx.shadowBlur = 6;
+        ctx.fill();
+        ctx.restore();
+    }
+}
+
+// --- 地球动画设置 ---
 settings = {
     POINTS : 200,
     RADIUS : 200,
@@ -44,12 +102,10 @@ Scene.prototype.init = function(canvas_id) {
 
     this.ctx = this.canvas.getContext('2d');
 
-    this.ctx.clearRect(0, 0, this.width, this.height);
-    this.ctx.fillStyle = 'rgb(0, 0, 0)';
-    this.ctx.fillRect(0, 0, this.width, this.height);
+    // 初始化星星
+    createStars(this.width, this.height);
 
     this.points = new Array();
-
     this.clouds = new Array();
 
     //water/earth
@@ -123,6 +179,8 @@ Scene.prototype.enable = function() {
     function doResize()
     {
         that.canvasResize();
+        // 重新生成星星
+        createStars(that.width, that.height);
     }
 
     var endResize;
@@ -161,7 +219,8 @@ Scene.prototype.update = function(time) {
 
     this.current_time = time;
 
-    this.draw();
+    // 绘制星空背景
+    drawStarBackground(this.ctx, this.width, this.height);
 
     for (i in this.points) {
         this.points[i].step();
@@ -187,8 +246,7 @@ Scene.prototype.update = function(time) {
 
 Scene.prototype.draw = function()
 {
-    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-    this.ctx.fillRect(0, 0, this.width, this.height); 
+    // 已由drawStarBackground覆盖，无需再填充
 };
 
 Point = function(location, velocity, theta, phi, ctx){

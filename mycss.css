@@ -178,11 +178,6 @@ canvas {
     padding: 0;
 }
 
-.icon-container i {
-    font-size: 28px;
-    color: #4facfe;
-    transition: none;
-}
 
 .icon-container:hover,
 .icon-container:hover::before,

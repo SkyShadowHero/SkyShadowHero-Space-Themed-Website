@@ -101,7 +101,6 @@ footer {
   display: block;
   margin: 0 auto;
 }
-}
 
 @keyframes loading-dot {
   0%, 100% { opacity: 0.3; }

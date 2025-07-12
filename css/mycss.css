@@ -32,7 +32,7 @@ canvas {
 
 .scroll-down {
     position: absolute;
-    bottom: 150px;
+    bottom: 170px;
     left: 50%;
     transform: translateX(-50%);
     color: #a0d2ff;

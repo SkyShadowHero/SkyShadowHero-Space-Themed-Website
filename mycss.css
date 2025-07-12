@@ -78,17 +78,12 @@ footer {
     }
 }
 
-/* 加载动画遮罩和火箭动画初始样式 */
-#loading-mask {
-    background: #000;
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#rocket-anim {
-    will-change: transform;
+@keyframes rocket-fly {
+  0%   { transform: translate(0, 0);}
+  10%  { transform: translateY(-60px);}
+  30%  { transform: translate(80px, -60px);}
+  50%  { transform: translate(80px, 60px);}
+  70%  { transform: translate(-80px, 60px);}
+  90%  { transform: translate(-80px, -60px);}
+  100% { transform: translate(0, 0);}
 }

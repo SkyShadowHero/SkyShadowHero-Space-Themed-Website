@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "39690757",
+      "name": "月球星球",
+      "font_class": "a-yueqiuxingqiu",
+      "unicode": "e798",
+      "unicode_decimal": 59288
+    },
+    {
+      "icon_id": "38502795",
+      "name": "脚印-",
+      "font_class": "footprint",
+      "unicode": "e83a",
+      "unicode_decimal": 59450
+    },
+    {
       "icon_id": "5387458",
       "name": "火箭加速",
       "font_class": "huojianjiasu",

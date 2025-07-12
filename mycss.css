@@ -78,14 +78,8 @@ footer {
     }
 }
 
-#rocket-anim .icon {
+/* 加到 mycss.css 末尾 */
+#footprints .footprint {
   fill: #fff !important;
-  width: 6rem !important;
-  height: 6rem !important;
-  min-width: 6rem !important;
-  min-height: 6rem !important;
-  max-width: 6rem !important;
-  max-height: 6rem !important;
-  display: block;
-  margin: 0 auto;
+  transition: opacity 0.25s;
 }

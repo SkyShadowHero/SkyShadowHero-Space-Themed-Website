@@ -17,23 +17,12 @@
     
 </head>
 <body>
+    <!-- 加载动画遮罩，放在<body>最前面 -->
     <div id="loading-mask" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black">
-        <div id="rocket-anim" class="flex items-center justify-center">
-            <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-huojianjiasu"></use>
-            </svg>
-        </div>
-        <div id="loading-text" class="mt-6 text-white text-lg font-mono tracking-widest flex gap-1">
-            <span>L</span>
-            <span>o</span>
-            <span>a</span>
-            <span>d</span>
-            <span>i</span>
-            <span>n</span>
-            <span>g</span>
-            <span>.</span>
-            <span>.</span>
-            <span>.</span>
+        <div id="footprints" class="flex flex-col items-center gap-4">
+            <svg class="footprint w-12 h-12 opacity-0" aria-hidden="true"><use xlink:href="#icon-footprint"></use></svg>
+            <svg class="footprint w-12 h-12 opacity-0" aria-hidden="true"><use xlink:href="#icon-footprint"></use></svg>
+            <svg class="footprint w-12 h-12 opacity-0" aria-hidden="true"><use xlink:href="#icon-footprint"></use></svg>
         </div>
     </div>
     <!-- 地球画布 -->

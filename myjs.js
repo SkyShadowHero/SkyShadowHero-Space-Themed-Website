@@ -618,104 +618,35 @@ window.onload = function() {
     });
 };
 
-function spaceshipStraighten(el) {
-  el.style.transform = "rotateY(0deg) rotateX(0deg) scale(1.08)";
-}
-function spaceshipTilt(el) {
-  el.style.transform = "rotateY(18deg) rotateX(10deg) scale(1.04)";
-}
-// 动态陨石背景（仅一个大陨石承载信息）
-(function() {
-  let canvas, ctx, width, height;
-  let meteor = {
-    x: 0, y: 0, r: 120, rx: 1.2, ry: 0.85, angle: 0, spin: 0.008, color: '#b0b8c9', alpha: 0.22
-  };
 
-  function resize() {
-    canvas.width = width = canvas.offsetWidth;
-    canvas.height = height = canvas.offsetHeight;
-    meteor.x = width / 2;
-    meteor.y = height / 2 + 10;
-  }
-
-  function drawMeteor() {
-    ctx.clearRect(0, 0, width, height);
-    ctx.save();
-    ctx.globalAlpha = meteor.alpha;
-    ctx.translate(meteor.x, meteor.y);
-    ctx.rotate(meteor.angle);
-    ctx.scale(meteor.rx, meteor.ry);
-    ctx.beginPath();
-    ctx.ellipse(0, 0, meteor.r, meteor.r, 0, 0, 2 * Math.PI);
-    ctx.fillStyle = meteor.color;
-    ctx.shadowColor = "#7ecfff";
-    ctx.shadowBlur = 32;
-    ctx.fill();
-    ctx.restore();
-
-    meteor.angle += meteor.spin;
-  }
-
-  function animate() {
-    drawMeteor();
-    requestAnimationFrame(animate);
-  }
-
-  window.addEventListener('DOMContentLoaded', function() {
-    canvas = document.getElementById('meteor-bg');
-    if (!canvas) return;
-    ctx = canvas.getContext('2d');
-    resize();
-    window.addEventListener('resize', resize);
-    animate();
-  });
-})();
-
+// 脚印加载动画
 window.addEventListener('DOMContentLoaded', function() {
-  // 火箭浮动动画
-  const rocket = document.getElementById('rocket-anim');
-  if (rocket && window.framerMotion) {
-    window.framerMotion.animate(
-      rocket,
-      { y: [0, -48, 0, 32, 0] },
-      { duration: 3.5, repeat: Infinity, ease: "easeInOut" }
-    );
-  }
-
-  // loading 字母依次变大变小
-  const loadingText = document.getElementById('loading-text');
-  if (loadingText && window.framerMotion) {
-    const spans = loadingText.querySelectorAll('span');
-    spans.forEach((span, i) => {
-      window.framerMotion.animate(
-        span,
-        { scale: [1, 1.5, 1] },
-        {
-          duration: 1.2,
-          repeat: Infinity,
-          delay: i * 0.13,
-          ease: "easeInOut"
-        }
-      );
+  const fps = document.querySelectorAll('#footprints .footprint');
+  let step = 0;
+  function animateFootprints() {
+    fps.forEach((fp, i) => {
+      fp.style.opacity = (i === step) ? '1' : '0.2';
     });
+    step = (step + 1) % 3;
   }
+  let timer = setInterval(animateFootprints, 350);
+  animateFootprints();
 
   // 最短显示5秒
-  let minShow = false;
-  let loaded = false;
+  let minShow = false, loaded = false;
   setTimeout(() => {
     minShow = true;
     if (loaded) {
-      const mask = document.getElementById('loading-mask');
-      if(mask) mask.style.display = 'none';
+      clearInterval(timer);
+      document.getElementById('loading-mask').style.display = 'none';
     }
   }, 5000);
 
   window.addEventListener('load', function() {
     loaded = true;
     if (minShow) {
-      const mask = document.getElementById('loading-mask');
-      if(mask) mask.style.display = 'none';
+      clearInterval(timer);
+      document.getElementById('loading-mask').style.display = 'none';
     }
   });
 });

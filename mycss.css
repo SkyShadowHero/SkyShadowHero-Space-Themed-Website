@@ -78,7 +78,6 @@ footer {
     }
 }
 
-/* 加到 mycss.css 末尾 */
 #footprints .footprint {
   fill: #fff !important;
   transition: opacity 0.25s;

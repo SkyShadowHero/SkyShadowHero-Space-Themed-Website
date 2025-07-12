@@ -10,13 +10,9 @@
     <link rel="stylesheet" href="/iconfont/iconfont.css">
     <script src="/iconfont/iconfont.js"></script>
 
-
-
-
-    
 </head>
 <body>
-    <!-- 加载动画遮罩，放在<body>最前面 -->
+    <!-- 加载动画遮罩 -->
     <div id="loading-mask" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black">
         <div id="footprints" class="flex flex-col items-center gap-4 relative" style="height: 180px;">
             <!-- 最下方脚印（右） -->
@@ -28,11 +24,14 @@
         </div>
     </div>
     <!-- 地球画布 -->
-    <canvas id="c"></canvas>
+    <canvas id="c" class="z-1"></canvas>
     
     <!-- 第一屏 - 地球视图 -->
     <section class="hero-section">
-        <div class="scroll-down">
+        <div class="z-4 w-screen h-44 bg-[url(/moon.webp)] bg-bottom bg-no-repeat bg-cover fixed">
+        </div>
+        </div>
+        <div class="scroll-down z-10">
             <svg class="icon w-8 h-8" aria-hidden="true">
                 <use xlink:href="#icon-xiangxia"></use>
             </svg>
@@ -40,16 +39,23 @@
     </section>
     
     <!-- 第二屏 - 个人信息 -->
-    <section class="profile-section">
+    <section class="relative z-2 content-center mb-90">
+        <div class="text-white max-w-2/4 container mx-auto flex flex-col items-center justify-center text-center">
+            <img src="avatar.webp" alt="头像" class="w-48 h-48 rounded-full mb-4 shadow-lg/30">
+            <div>
+                <p class="mb-90 skew-y-4 hover:skew-y-0 duration-1000 text-6xl text-center text-shadow-lg/30">我是天影大侠</p>
+                <p class="mb-90 skew-y-4 hover:skew-y-0 duration-1000 text-6xl text-center text-shadow-lg/30">我在互联网留下了一个脚印！</p>
+                <p class="mb-90 skew-y-4 hover:skew-y-0 duration-1000 text-6xl text-center text-shadow-lg/30">如果你也对技术感兴趣，或者有任何话题想一起探讨，欢迎联系我！让我们在互联网的大海中携手前行，共同书写精彩的篇章。</p>
+            </div>
+        </div>
     </section>
     <!-- footer -->
-    <footer class="fixed left-0 bottom-0 w-full z-50 flex flex-col items-center justify-end">
-        <div class="container relative z-10 pb-2">
+    <footer class="z-5 fixed w-screen h-fit mx-auto ">
+        <div>
             <p>&copy;2022 - 2025 By 天影大侠</p>
-            <a href="https://icp.gov.moe/?keyword=20253014" target="_blank">萌ICP备20253014号</a>
+            <a href="https://icp.gov.moe/?keyword=20253014" target="_blank" class="hover:underline">萌ICP备20253014号</a>
         </div>
     </footer>
-
     <script src="myjs.js"></script>
 </body>
 </html>

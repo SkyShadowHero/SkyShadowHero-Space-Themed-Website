@@ -80,19 +80,27 @@ footer {
 
 @keyframes rocket-float {
   0%   { transform: translateY(0);}
-  20%  { transform: translateY(-32px);}
-  40%  { transform: translateY(0);}
-  60%  { transform: translateY(24px);}
-  80%  { transform: translateY(0);}
+  25%  { transform: translateY(-48px);}
+  50%  { transform: translateY(0);}
+  75%  { transform: translateY(32px);}
   100% { transform: translateY(0);}
 }
 .animate-rocket-float {
-  animation: rocket-float 5s cubic-bezier(0.4,0,0.2,1) infinite;
+  animation: rocket-float 3.5s cubic-bezier(0.4,0,0.2,1) infinite;
 }
 
-/* 强制火箭icon为白色 */
+/* 强制火箭icon为白色且更大 */
 #rocket-anim .icon {
   fill: #fff !important;
+  width: 6rem !important;
+  height: 6rem !important;
+  min-width: 6rem !important;
+  min-height: 6rem !important;
+  max-width: 6rem !important;
+  max-height: 6rem !important;
+  display: block;
+  margin: 0 auto;
+}
 }
 
 @keyframes loading-dot {

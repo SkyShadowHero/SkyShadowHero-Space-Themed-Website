@@ -634,11 +634,20 @@ window.addEventListener('DOMContentLoaded', function() {
 
   // 最短显示5秒
   let minShow = false, loaded = false;
+  function hideLoadingMask() {
+    const mask = document.getElementById('loading-mask');
+    if (mask) {
+      mask.style.opacity = '0';
+      setTimeout(() => {
+        mask.style.display = 'none';
+      }, 500); // 与transition一致
+    }
+  }
   setTimeout(() => {
     minShow = true;
     if (loaded) {
       clearInterval(timer);
-      document.getElementById('loading-mask').style.display = 'none';
+      hideLoadingMask();
     }
   }, 5000);
 
@@ -646,7 +655,7 @@ window.addEventListener('DOMContentLoaded', function() {
     loaded = true;
     if (minShow) {
       clearInterval(timer);
-      document.getElementById('loading-mask').style.display = 'none';
+      hideLoadingMask();
     }
   });
 });

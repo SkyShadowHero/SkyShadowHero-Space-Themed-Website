@@ -7,10 +7,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="mycss.css">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="/iconfont/iconfont.css">
     <script src="/iconfont/iconfont.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/framer-motion@10.16.5/dist/framer-motion.umd.js"></script>
 
 
 
@@ -18,7 +16,7 @@
 </head>
 <body>
     <!-- 加载动画遮罩，放在<body>最前面 -->
-    <div id="loading-mask" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black">
+    <div id="loading-mask" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black transition-opacity duration-500">
         <div id="footprints" class="flex flex-col items-center gap-4 relative" style="height: 180px;">
             <!-- 最下方脚印（右） -->
             <svg class="footprint w-12 h-12 opacity-0 absolute right-0 bottom-0 -scale-x-100" aria-hidden="true" style="transition:opacity 0.25s;"><use xlink:href="#icon-footprint"></use></svg>

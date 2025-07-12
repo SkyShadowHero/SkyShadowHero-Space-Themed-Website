@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "5387458",
+      "name": "火箭加速",
+      "font_class": "huojianjiasu",
+      "unicode": "ead9",
+      "unicode_decimal": 60121
+    },
+    {
       "icon_id": "12014528",
       "name": "写博客",
       "font_class": "xieboke",

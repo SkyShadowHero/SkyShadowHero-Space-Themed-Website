@@ -670,3 +670,41 @@ function spaceshipTilt(el) {
     animate();
   });
 })();
+
+// 火箭加载动画（使用 Framer Motion）
+window.addEventListener('DOMContentLoaded', function() {
+  const rocket = document.getElementById('rocket-anim');
+  if (!rocket || !window.framerMotion) return;
+
+  // 定义飞行动画路径（上下左右循环）
+  const { animate } = window.framerMotion;
+  let seq = [
+    { x: 0, y: 0 },
+    { x: 0, y: -80 },
+    { x: 80, y: -80 },
+    { x: 80, y: 0 },
+    { x: 80, y: 80 },
+    { x: 0, y: 80 },
+    { x: -80, y: 80 },
+    { x: -80, y: 0 },
+    { x: -80, y: -80 },
+    { x: 0, y: -80 },
+    { x: 0, y: 0 }
+  ];
+
+  function loopAnim() {
+    animate(rocket, seq, {
+      duration: 2.8,
+      ease: "linear",
+      repeat: Infinity
+    });
+  }
+  loopAnim();
+
+  // 页面加载完毕后隐藏加载动画
+  window.addEventListener('load', function() {
+    setTimeout(() => {
+      document.getElementById('loading-mask').style.display = 'none';
+    }, 600); // 可根据实际加载速度调整
+  });
+});

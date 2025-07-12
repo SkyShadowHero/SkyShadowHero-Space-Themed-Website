@@ -10,11 +10,21 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="/iconfont/iconfont.css">
     <script src="/iconfont/iconfont.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/framer-motion@10.16.5/dist/framer-motion.umd.js"></script>
 
 
     
 </head>
 <body>
+    <!-- 加载动画遮罩 -->
+    <div id="loading-mask" class="fixed inset-0 z-[9999] flex items-center justify-center bg-black">
+    <div id="rocket-anim" class="w-16 h-16 flex items-center justify-center">
+        <!-- 替换为你的阿里iconfont火箭symbol名称 -->
+        <svg class="icon w-16 h-16 fill-white" aria-hidden="true">
+        <use xlink:href="#icon-huojianjiasu"></use>
+        </svg>
+    </div>
+    </div>
     <!-- 地球画布 -->
     <canvas id="c"></canvas>
     

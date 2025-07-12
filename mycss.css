@@ -82,3 +82,7 @@ footer {
   fill: #fff !important;
   transition: opacity 0.25s;
 }
+
+#loading-mask {
+  transition: opacity 0.5s;
+}

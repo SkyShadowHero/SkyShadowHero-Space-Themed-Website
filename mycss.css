@@ -89,6 +89,15 @@ footer {
   animation: rocket-float 3.5s cubic-bezier(0.4,0,0.2,1) infinite;
 }
 
+@keyframes loading-dot {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+.animate-loading-dot {
+  animation: loading-dot 1.6s infinite;
+  display: inline-block;
+}
+
 /* 强制火箭icon为白色且更大 */
 #rocket-anim .icon {
   fill: #fff !important;
@@ -100,13 +109,4 @@ footer {
   max-height: 6rem !important;
   display: block;
   margin: 0 auto;
-}
-
-@keyframes loading-dot {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 1; }
-}
-.animate-loading-dot {
-  animation: loading-dot 1.6s infinite;
-  display: inline-block;
 }

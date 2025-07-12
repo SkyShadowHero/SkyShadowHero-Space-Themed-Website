@@ -80,11 +80,19 @@ footer {
 
 @keyframes rocket-float {
   0%   { transform: translateY(0);}
-  50%  { transform: translateY(-40px);}
+  20%  { transform: translateY(-32px);}
+  40%  { transform: translateY(0);}
+  60%  { transform: translateY(24px);}
+  80%  { transform: translateY(0);}
   100% { transform: translateY(0);}
 }
 .animate-rocket-float {
-  animation: rocket-float 5s ease-in-out infinite;
+  animation: rocket-float 5s cubic-bezier(0.4,0,0.2,1) infinite;
+}
+
+/* 强制火箭icon为白色 */
+#rocket-anim .icon {
+  fill: #fff !important;
 }
 
 @keyframes loading-dot {

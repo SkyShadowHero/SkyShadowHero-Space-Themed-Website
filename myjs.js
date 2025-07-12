@@ -677,11 +677,27 @@ window.addEventListener('DOMContentLoaded', function() {
   if (rocket) {
     rocket.style.animation = "rocket-fly 2.2s linear infinite";
   }
-  // 页面加载完毕后隐藏加载动画
-  window.addEventListener('load', function() {
-    setTimeout(() => {
+
+  // 加载动画最短显示5秒
+  let minShow = false;
+  let loaded = false;
+
+  // 5秒后允许关闭
+  setTimeout(() => {
+    minShow = true;
+    if (loaded) {
       const mask = document.getElementById('loading-mask');
       if(mask) mask.style.display = 'none';
-    }, 600); // 可根据实际加载速度调整
+    }
+  }, 5000);
+
+  // 页面加载完毕
+  window.addEventListener('load', function() {
+    loaded = true;
+    if (minShow) {
+      const mask = document.getElementById('loading-mask');
+      if(mask) mask.style.display = 'none';
+    }
+    // 否则等5秒定时器自动关闭
   });
 });

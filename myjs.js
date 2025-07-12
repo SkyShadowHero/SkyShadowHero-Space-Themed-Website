@@ -671,18 +671,38 @@ function spaceshipTilt(el) {
   });
 })();
 
-// 火箭加载动画
 window.addEventListener('DOMContentLoaded', function() {
+  // 火箭浮动动画
   const rocket = document.getElementById('rocket-anim');
-  if (rocket) {
-    rocket.style.animation = "rocket-fly 2.2s linear infinite";
+  if (rocket && window.framerMotion) {
+    window.framerMotion.animate(
+      rocket,
+      { y: [0, -48, 0, 32, 0] },
+      { duration: 3.5, repeat: Infinity, ease: "easeInOut" }
+    );
   }
 
-  // 加载动画最短显示5秒
+  // loading 字母依次变大变小
+  const loadingText = document.getElementById('loading-text');
+  if (loadingText && window.framerMotion) {
+    const spans = loadingText.querySelectorAll('span');
+    spans.forEach((span, i) => {
+      window.framerMotion.animate(
+        span,
+        { scale: [1, 1.5, 1] },
+        {
+          duration: 1.2,
+          repeat: Infinity,
+          delay: i * 0.13,
+          ease: "easeInOut"
+        }
+      );
+    });
+  }
+
+  // 最短显示5秒
   let minShow = false;
   let loaded = false;
-
-  // 5秒后允许关闭
   setTimeout(() => {
     minShow = true;
     if (loaded) {
@@ -691,13 +711,11 @@ window.addEventListener('DOMContentLoaded', function() {
     }
   }, 5000);
 
-  // 页面加载完毕
   window.addEventListener('load', function() {
     loaded = true;
     if (minShow) {
       const mask = document.getElementById('loading-mask');
       if(mask) mask.style.display = 'none';
     }
-    // 否则等5秒定时器自动关闭
   });
 });

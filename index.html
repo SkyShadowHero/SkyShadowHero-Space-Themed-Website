@@ -10,30 +10,31 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="/iconfont/iconfont.css">
     <script src="/iconfont/iconfont.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/framer-motion@10.16.5/dist/framer-motion.umd.js"></script>
+
 
 
     
 </head>
 <body>
-    <!-- 加载动画遮罩 -->
     <div id="loading-mask" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black">
-    <div id="rocket-anim" class="animate-rocket-float flex items-center justify-center">
-        <svg class="icon" aria-hidden="true">
-        <use xlink:href="#icon-huojianjiasu"></use>
-        </svg>
-    </div>
-    <div class="mt-6 text-white text-lg font-mono tracking-widest flex gap-1">
-        <span class="animate-loading-dot">L</span>
-        <span class="animate-loading-dot" style="animation-delay:.2s">o</span>
-        <span class="animate-loading-dot" style="animation-delay:.4s">a</span>
-        <span class="animate-loading-dot" style="animation-delay:.6s">d</span>
-        <span class="animate-loading-dot" style="animation-delay:.8s">i</span>
-        <span class="animate-loading-dot" style="animation-delay:1s">n</span>
-        <span class="animate-loading-dot" style="animation-delay:1.2s">g</span>
-        <span class="animate-loading-dot" style="animation-delay:1.4s">.</span>
-        <span class="animate-loading-dot" style="animation-delay:1.6s">.</span>
-        <span class="animate-loading-dot" style="animation-delay:1.8s">.</span>
-    </div>
+        <div id="rocket-anim" class="flex items-center justify-center">
+            <svg class="icon" aria-hidden="true">
+            <use xlink:href="#icon-huojianjiasu"></use>
+            </svg>
+        </div>
+        <div id="loading-text" class="mt-6 text-white text-lg font-mono tracking-widest flex gap-1">
+            <span>L</span>
+            <span>o</span>
+            <span>a</span>
+            <span>d</span>
+            <span>i</span>
+            <span>n</span>
+            <span>g</span>
+            <span>.</span>
+            <span>.</span>
+            <span>.</span>
+        </div>
     </div>
     <!-- 地球画布 -->
     <canvas id="c"></canvas>

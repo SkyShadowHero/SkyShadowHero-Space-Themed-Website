@@ -16,12 +16,24 @@
 </head>
 <body>
     <!-- 加载动画遮罩 -->
-    <div id="loading-mask" class="fixed inset-0 z-[9999] flex items-center justify-center bg-black">
-    <div id="rocket-anim" class="w-16 h-16 flex items-center justify-center transition-transform duration-300">
+    <div id="loading-mask" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black">
+    <div id="rocket-anim" class="w-16 h-16 flex items-center justify-center animate-rocket-float">
         <!-- 替换为你的 iconfont 火箭 symbol 名称 -->
         <svg class="icon w-16 h-16 fill-white" aria-hidden="true">
         <use xlink:href="#icon-huojianjiasu"></use>
         </svg>
+    </div>
+    <div class="mt-6 text-white text-lg font-mono tracking-widest flex gap-1">
+        <span class="animate-loading-dot">L</span>
+        <span class="animate-loading-dot" style="animation-delay:.2s">o</span>
+        <span class="animate-loading-dot" style="animation-delay:.4s">a</span>
+        <span class="animate-loading-dot" style="animation-delay:.6s">d</span>
+        <span class="animate-loading-dot" style="animation-delay:.8s">i</span>
+        <span class="animate-loading-dot" style="animation-delay:1s">n</span>
+        <span class="animate-loading-dot" style="animation-delay:1.2s">g</span>
+        <span class="animate-loading-dot" style="animation-delay:1.4s">.</span>
+        <span class="animate-loading-dot" style="animation-delay:1.6s">.</span>
+        <span class="animate-loading-dot" style="animation-delay:1.8s">.</span>
     </div>
     </div>
     <!-- 地球画布 -->

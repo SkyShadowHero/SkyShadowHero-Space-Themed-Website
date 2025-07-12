@@ -78,12 +78,20 @@ footer {
     }
 }
 
-@keyframes rocket-fly {
-  0%   { transform: translate(0, 0);}
-  10%  { transform: translateY(-60px);}
-  30%  { transform: translate(80px, -60px);}
-  50%  { transform: translate(80px, 60px);}
-  70%  { transform: translate(-80px, 60px);}
-  90%  { transform: translate(-80px, -60px);}
-  100% { transform: translate(0, 0);}
+@keyframes rocket-float {
+  0%   { transform: translateY(0);}
+  50%  { transform: translateY(-40px);}
+  100% { transform: translateY(0);}
+}
+.animate-rocket-float {
+  animation: rocket-float 5s ease-in-out infinite;
+}
+
+@keyframes loading-dot {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+.animate-loading-dot {
+  animation: loading-dot 1.6s infinite;
+  display: inline-block;
 }

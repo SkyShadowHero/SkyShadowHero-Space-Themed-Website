@@ -649,7 +649,7 @@ window.addEventListener('DOMContentLoaded', function() {
       clearInterval(timer);
       hideLoadingMask();
     }
-  }, 0);
+  }, 1000);
 
   window.addEventListener('load', function() {
     loaded = true;

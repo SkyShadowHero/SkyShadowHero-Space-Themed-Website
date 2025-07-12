@@ -32,7 +32,7 @@ canvas {
 
 .scroll-down {
     position: absolute;
-    bottom: 200px;
+    bottom: 150px;
     left: 50%;
     transform: translateX(-50%);
     color: #a0d2ff;
@@ -77,6 +77,6 @@ footer {
 }
 
 #loading-mask {
-  transition: opacity 1s;
+  transition: opacity 1.5s;
 }
 

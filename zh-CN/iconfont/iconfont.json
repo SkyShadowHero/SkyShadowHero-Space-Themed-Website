@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "42973536",
+      "name": "X",
+      "font_class": "X",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
       "icon_id": "1297",
       "name": "向下",
       "font_class": "xiangxia",

@@ -12,6 +12,7 @@ canvas {
     left: 0;
     width: 100%;
     height: 100%;
+
 }
 
 .container {
@@ -70,7 +71,3 @@ footer {
     }
 }
 
-#footprints .footprint {
-  fill: #fff !important;
-  transition: opacity 0.25s;
-}

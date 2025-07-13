@@ -11,7 +11,7 @@ window.addEventListener('DOMContentLoaded', function() {
   let timer = setInterval(animateFootprints, 350);
   animateFootprints();
 
-  // 最短显示5秒
+
   let minShow = false, loaded = false;
   function hideLoadingMask() {
     const mask = document.getElementById('loading-mask');
@@ -28,7 +28,7 @@ window.addEventListener('DOMContentLoaded', function() {
       clearInterval(timer);
       hideLoadingMask();
     }
-  }, 1000);
+  }, 2000);
 
   window.addEventListener('load', function() {
     loaded = true;

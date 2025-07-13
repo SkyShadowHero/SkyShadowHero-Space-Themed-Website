@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- 默认hreflang设为en -->
+    <link rel="alternate" hreflang="en" href="https://skyshadow.fun/en" />
+    <link rel="alternate" hreflang="zh-CN" href="https://skyshadow.fun/zh-CN" />
+    <script>
+        // 自动跳转逻辑
+        (function() {
+            // 优先级：1.URL参数 2.Cookie 3.浏览器语言 4.默认en
+            const params = new URLSearchParams(location.search);
+            let lang = params.get('lang');
+            
+            if (!lang) {
+                const cookieLang = document.cookie.match(/preferred_lang=([^;]+)/);
+                lang = cookieLang ? cookieLang[1] : 
+                       navigator.language.startsWith('zh') ? 'zh-CN' : 'en';
+            }
+
+            // 永久跳转（SEO友好）
+            if (!location.pathname.startsWith(`/${lang}`)) {
+                location.replace(`/${lang}`);
+            }
+        })();
+    </script>
+</head>
+</html>

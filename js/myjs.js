@@ -613,7 +613,7 @@ window.onload = function() {
     // 添加滚动效果
     $(".scroll-down").click(function() {
         $('html, body').animate({
-            scrollTop: $(".profile-section").offset().top
+            scrollTop: $(".profile-section").offset().top - 100
         }, 800);
     });
 };

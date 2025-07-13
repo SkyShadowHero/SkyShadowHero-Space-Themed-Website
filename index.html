@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/iconfont/iconfont.css">
     <script src="js/load.js"></script>
     <!-- 加载动画遮罩 -->
-    <div id="loading-mask" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black ease-in" style="transition:opacity 1.5s;">
+    <div id="loading-mask" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black transition duration-500 ease-in">
         <div id="footprints" class="flex flex-col items-center gap-4 relative" style="height: 180px;">
             <!-- 最下方脚印（右） -->
             <svg class="footprint w-12 h-12 opacity-0 absolute right-0 bottom-0 -scale-x-100" aria-hidden="true" style="transition:opacity 0.25s;"><use xlink:href="#icon-footprint"></use></svg>
@@ -79,7 +79,7 @@
     <footer class="z-5 fixed w-screen h-fit mx-auto ">
         <div>
             <p>&copy;2022 - 2025 By 天影大侠</p>
-            <a href="https://icp.gov.moe/?keyword=20253014" target="_blank" class="hover:underline" ontouchstart="underline">萌ICP备20253014号</a>
+            <a href="https://icp.gov.moe/?keyword=20253014" target="_blank" class="hover:underline focus:underline">萌ICP备20253014号</a>
         </div>
     </footer>
     <script src="js/myjs.js"></script>

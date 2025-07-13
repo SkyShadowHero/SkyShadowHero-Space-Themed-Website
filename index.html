@@ -8,14 +8,14 @@
     <link rel="stylesheet" href="/iconfont/iconfont.css">
     <script src="js/load.js"></script>
     <!-- 加载动画遮罩 -->
-    <div id="loading-mask" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black">
+    <div id="loading-mask" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black ease-in" style="transition:opacity 1.5s;">
         <div id="footprints" class="flex flex-col items-center gap-4 relative" style="height: 180px;">
             <!-- 最下方脚印（右） -->
-            <svg class="footprint w-12 h-12 opacity-0 absolute right-0 bottom-0 -scale-x-100" aria-hidden="true" style="transition:opacity 1.5s;"><use xlink:href="#icon-footprint"></use></svg>
+            <svg class="footprint w-12 h-12 opacity-0 absolute right-0 bottom-0 -scale-x-100" aria-hidden="true" style="transition:opacity 0.25s;"><use xlink:href="#icon-footprint"></use></svg>
             <!-- 中间脚印（左，镜像） -->
-            <svg class="footprint w-12 h-12 opacity-0 absolute left-0 bottom-[50px]" aria-hidden="true" style="transition:opacity 1.5s;"><use xlink:href="#icon-footprint"></use></svg>
+            <svg class="footprint w-12 h-12 opacity-0 absolute left-0 bottom-[50px]" aria-hidden="true" style="transition:opacity 0.25s;"><use xlink:href="#icon-footprint"></use></svg>
             <!-- 最上方脚印（右） -->
-            <svg class="footprint w-12 h-12 opacity-0 absolute right-0 bottom-[100px] -scale-x-100" aria-hidden="true" style="transition:opacity 1.5s;"><use xlink:href="#icon-footprint"></use></svg>
+            <svg class="footprint w-12 h-12 opacity-0 absolute right-0 bottom-[100px] -scale-x-100" aria-hidden="true" style="transition:opacity 0.25s;"><use xlink:href="#icon-footprint"></use></svg>
         </div>
     </div>
     <script src="/js/jquery.min.js"></script>

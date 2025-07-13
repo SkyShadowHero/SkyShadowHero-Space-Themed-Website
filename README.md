@@ -6,7 +6,7 @@
 
 # SkyShadowHero-Space-Themed-Website
 The personal Website of SkyShadowHero.
-You can use it or learn from this repo for free.
+You can use it or learn from this repo under the license.
 ## Demo
 My Website: [Link](https://www.skyshadow.fun)  
 Screenshot:

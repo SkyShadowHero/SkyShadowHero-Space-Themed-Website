@@ -14,6 +14,7 @@
 ## 相关资源
 动态2.5D地球: [Codepen](https://codepen.io/ferronsays/pen/AwgQVG)  
 Tainwindcss: [Docs](https://tailwindcss.com/)
+阿里巴巴矢量图标库: [Iconfont](https://www.iconfont.cn/)
 ## 许可证
 
 本项目采用 [知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议](https://creativecommons.org/licenses/by-nc-sa/4.0/)（CC BY-NC-SA 4.0）。

@@ -1,6 +1,9 @@
 <div align="center">
   <strong>English</strong> | <a href="./READMECN.md">中文</a>
 </div>
+
+---
+
 # SkyShadowHero-Space-Themed-Website
 The personal Website of SkyShadowHero.
 You can use it or learn from this repo for free.

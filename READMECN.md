@@ -1,6 +1,9 @@
 <div align="center">
   <a href="./README.md">English</a> | <strong>中文</strong>
 </div>
+
+---
+
 # 天影大侠太空主题个人网站
 天影大侠的个人网站.
 你可以随意使用和借鉴.

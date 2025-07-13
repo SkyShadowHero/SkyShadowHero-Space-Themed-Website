@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+    <link rel="alternate" hreflang="zh-CN" href="https://skyshadow.fun/zh-CN" />
     <meta charset="UTF-8">
     <link rel="icon" href="favicon.png" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,23 +9,23 @@
     <meta name="keywords" content="天影大侠 脚印">
     <meta name="description" content="在互联网留下一个脚印！">
     <meta name="author" content="天影大侠">
-    <link rel="stylesheet" href="/iconfont/iconfont.css">
+    <link rel="stylesheet" href="iconfont/iconfont.css">
     <script src="js/load.js"></script>
     <!-- 加载动画遮罩 -->
     <div id="loading-mask" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black transition duration-500 ease-in">
         <div id="footprints" class="flex flex-col items-center gap-4 relative" style="height: 180px;">
-            <!-- 最下方脚印（右） -->
+            <!-- 第一个脚印 -->
             <svg class="footprint w-12 h-12 opacity-0 absolute right-0 bottom-0 -scale-x-100" aria-hidden="true" style="transition:opacity 0.25s;"><use xlink:href="#icon-footprint"></use></svg>
-            <!-- 中间脚印（左，镜像） -->
+            <!-- 第二个脚印 -->
             <svg class="footprint w-12 h-12 opacity-0 absolute left-0 bottom-[50px]" aria-hidden="true" style="transition:opacity 0.25s;"><use xlink:href="#icon-footprint"></use></svg>
-            <!-- 最上方脚印（右） -->
+            <!-- 第三个脚印 -->
             <svg class="footprint w-12 h-12 opacity-0 absolute right-0 bottom-[100px] -scale-x-100" aria-hidden="true" style="transition:opacity 0.25s;"><use xlink:href="#icon-footprint"></use></svg>
         </div>
     </div>
-    <script src="/js/jquery.min.js"></script>
+    <script src="js/jquery.min.js"></script>
     <link rel="stylesheet" href="css/mycss.css">
     <script src="js/tailwindcss.js"></script>
-    <script src="/iconfont/iconfont.js"></script>
+    <script src="iconfont/iconfont.js"></script>
     <script src="js/jquery.hoverIntent.js"></script>
 
 
@@ -33,9 +34,9 @@
     <!-- 地球画布 -->
     <canvas id="c" class="z-1"></canvas>
     
-    <!-- 第一屏 - 地球视图 -->
+    <!-- 第一屏 -->
     <section class="hero-section">
-        <div class="z-4 w-screen h-44 bg-[url(/moon.webp)] bg-bottom bg-no-repeat bg-cover fixed">
+        <div class="z-4 w-screen h-44 bg-[url(moon.webp)] bg-bottom bg-no-repeat bg-cover fixed">
         </div>
         <div class="scroll-down z-10">
             <svg class="icon w-8 h-8" aria-hidden="true">
@@ -44,7 +45,7 @@
         </div>
     </section>
     
-    <!-- 第二屏 - 个人信息 -->
+    <!-- 第二屏  -->
     <section class="profile-section relative z-2 content-center mb-90">
         <div class="text-white max-w-9/10 container mx-auto flex flex-col items-center justify-center text-center">
             <img src="avatar.webp" alt="头像" class="w-48 rounded-full mb-4 shadow-lg/30">
@@ -72,13 +73,13 @@
                         </svg>
                     </a>
                 </div>          
-                <p class="mb-10 rotate-y-6 rotate-z-8 hover:rotate-y-0 hover:rotate-z-0 duration-1000 text-2xl text-center text-shadow-lg/30">
+                <p class="mb-10 rotate-y-6 rotate-z-8 hover:rotate-y-0 hover:rotate-z-0 duration-300 text-2xl text-center text-shadow-lg/30">
                     我在互联网留下了一个脚印！
                 </p>
             </div>
         </div>
     </section>
-    <!-- footer -->
+    <!-- 页脚 -->
     <footer class="z-5 fixed w-screen h-fit mx-auto mb-0">
         <div>
             <p>&copy;2022 - 2025 By 天影大侠</p>

@@ -13,7 +13,7 @@
 ![Homepage](/image.png)
 ## 相关资源
 动态2.5D地球: [Codepen](https://codepen.io/ferronsays/pen/AwgQVG)  
-Tainwindcss: [Docs](https://tailwindcss.com/)
+Tainwindcss: [Docs](https://tailwindcss.com/)  
 阿里巴巴矢量图标库: [Iconfont](https://www.iconfont.cn/)
 ## 许可证
 

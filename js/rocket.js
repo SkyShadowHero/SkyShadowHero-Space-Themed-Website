@@ -1,18 +1,18 @@
 /**
- * SmoothCursor - The Definitive & Final Working Edition (Lerp-Based)
- * This version replaces the faulty spring simulation with a robust Linear Interpolation (Lerp) model
- * to definitively fix the "not moving" bug, while retaining all features.
+ * SmoothCursor - Definitive JS Translation of the Original Logic
+ * This version is a direct, framework-free translation of the initial React component.
+ * It uses a reliable spring simulation and the original, proven logic for movement and rotation.
+ * All other features (boost, particles) have been removed to ensure stability.
  *
  * @author Manus
- * @version 20.0.0 (Definitive Lerp Fix)
+ * @version 21.0.0 (Back to Basics - Final)
  */
 document.addEventListener('DOMContentLoaded', () => {
     // --- 1. 元素获取 ---
     const cursorContainer = document.getElementById('smooth-cursor');
     const rotator = document.getElementById('cursor-rotator');
-    const particleContainer = document.getElementById('particle-container');
 
-    if (!cursorContainer || !rotator || !particleContainer) {
+    if (!cursorContainer || !rotator) {
         console.error("Cursor elements not found!");
         return;
     }
@@ -27,13 +27,123 @@ document.addEventListener('DOMContentLoaded', () => {
     cursorContainer.style.position = 'fixed';
     cursorContainer.style.top = '0';
     cursorContainer.style.left = '0';
-    cursorContainer.style.zIndex = '1';
+    cursorContainer.style.zIndex = '1'; // <-- Z-INDEX 设置为 1
     cursorContainer.style.pointerEvents = 'none';
     cursorContainer.style.willChange = 'transform';
     cursorContainer.style.transform = 'scale(0)';
 
     rotator.style.willChange = 'transform';
     rotator.style.transformOrigin = 'center center';
+
+    // --- 3. 可靠的弹簧物理模拟 ---
+    function createSpring(initialValue, config) {
+        let value = initialValue;
+        let velocity = 0;
+        let target = initialValue;
+        const { stiffness, damping, mass, restDelta } = config;
+
+        return {
+            set: (newValue) => { target = newValue; },
+            get: () => value,
+            update: (delta) => {
+                if (delta === 0) return;
+                // 只有当目标和当前值有足够差异时才计算，防止静止时抖动
+                if (Math.abs(target - value) < restDelta && Math.abs(velocity) < restDelta) {
+                    value = target;
+                    velocity = 0;
+                    return;
+                }
+                const tension = target - value;
+                const dampingForce = -damping * velocity;
+                const acceleration = (tension * stiffness - dampingForce) / mass;
+                
+                velocity += acceleration * delta;
+                value += velocity * delta;
+            }
+        };
+    }
+
+    // --- 4. 初始化弹簧状态 (与原版 React 代码的配置匹配) ---
+    const springConfig = { stiffness: 400, damping: 45, mass: 1, restDelta: 0.001 };
+    const cursorX = createSpring(window.innerWidth / 2, springConfig);
+    const cursorY = createSpring(window.innerHeight / 2, springConfig);
+    const rotation = createSpring(0, { ...springConfig, stiffness: 300, damping: 60 });
+    const scale = createSpring(1, { ...springConfig, stiffness: 500, damping: 35 });
+
+    // --- 5. 状态和引用变量 (与原版 React 代码完全一致) ---
+    const state = {
+        lastMousePos: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
+        velocity: { x: 0, y: 0 },
+        lastUpdateTime: Date.now(),
+        previousAngle: 0,
+        accumulatedRotation: 0,
+        scaleTimeout: null,
+        iconAngleCorrection: -45, // 补偿 iconfont 的朝向
+    };
+
+    // --- 6. 核心事件处理 (与原版 React 代码完全一致) ---
+    function handleMouseMove(e) {
+        const pos = { x: e.clientX, y: e.clientY };
+        
+        const now = Date.now();
+        const delta = (now - state.lastUpdateTime) / 1000; // 转换为秒
+        if (delta > 0) {
+            state.velocity = {
+                x: (pos.x - state.lastMousePos.x) / delta,
+                y: (pos.y - state.lastMousePos.y) / delta,
+            };
+        }
+        state.lastUpdateTime = now;
+        state.lastMousePos = pos;
+
+        cursorX.set(pos.x);
+        cursorY.set(pos.y);
+
+        const speed = Math.hypot(state.velocity.x, state.velocity.y);
+
+        if (speed > 20) { // 速度阈值，防止低速时抖动
+            const physicalAngle = Math.atan2(state.velocity.y, state.velocity.x) * (180 / Math.PI);
+            const targetAngle = physicalAngle + 90 + state.iconAngleCorrection;
+            
+            let diff = targetAngle - state.previousAngle;
+            if (diff > 180) diff -= 360;
+            if (diff < -180) diff += 360;
+            
+            state.accumulatedRotation += diff;
+            state.previousAngle = targetAngle;
+            
+            rotation.set(state.accumulatedRotation);
+            
+            scale.set(0.95);
+            clearTimeout(state.scaleTimeout);
+            state.scaleTimeout = setTimeout(() => scale.set(1), 150);
+        }
+    }
+
+    // --- 7. 动画循环 ---
+    let lastFrameTime = performance.now();
+    function animate(now) {
+        const delta = (now - lastFrameTime) / 1000; // 转换为秒
+        lastFrameTime = now;
+
+        // 更新所有弹簧的状态
+        cursorX.update(delta);
+        cursorY.update(delta);
+        rotation.update(delta);
+        scale.update(delta);
+        
+        // 将弹簧的计算结果应用到样式上
+        cursorContainer.style.transform = `translate(${cursorX.get()}px, ${cursorY.get()}px) translate(-50%, -50%)`;
+        rotator.style.transform = `rotate(${rotation.get()}deg) scale(${scale.get()})`;
+        
+        requestAnimationFrame(animate);
+    }
+
+    // --- 8. 启动 ---
+    window.addEventListener('mousemove', handleMouseMove);
+    cursorContainer.style.transform = 'scale(1)';
+    animate(performance.now());
+});
 
     particleContainer.style.position = 'absolute';
     particleContainer.style.top = '0';

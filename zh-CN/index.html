@@ -93,13 +93,23 @@
     </footer>
     <script src="/js/myjs.js"></script>
     <div id="smooth-cursor" 
-        class="fixed top-0 left-0 z-1 pointer-events-none transition-transform duration-300 ease-out" 
-        style="--scale: 0; --rotate: 0deg; transform: translate(var(--x, -50%), var(--y, -50%)) scale(var(--scale)) rotate(var(--rotate)); will-change: transform;">
+        class="fixed top-0 left-0 z-1 pointer-events-none" 
+        style="--x: 50vw; --y: 50vh; transform: translate(var(--x), var(--y)) translate(-50%, -50%); will-change: transform;">
         
-        <svg class="w-12 h-12 text-black drop-shadow-md" aria-hidden="true">
-            <use xlink:href="#icon-huojianjiasu"></use>
-        </svg>
+        <!-- 旋转和缩放的容器 -->
+        <div id="cursor-rotator" 
+            class="transition-transform duration-200"
+            style="--rotate: 0deg; --scale: 1; transform: rotate(var(--rotate)) scale(var(--scale)); transform-origin: center center;">
+            
+            <!-- SVG 图标本身 (移除所有内联 transform) -->
+            <svg class="w-8 h-8 text-black drop-shadow-md" aria-hidden="true">
+                <use xlink:href="#icon-huojianjiasu"></use>
+            </svg>
+
+            <!-- 粒子发射的容器 -->
+            <div id="particle-container" class="absolute top-0 left-0 w-full h-full"></div>
+        </div>
     </div>
-        <script src="/js/rocket.js"></script>
+    <script src="/js/rocket.js"></script>
 </body>
 </html>

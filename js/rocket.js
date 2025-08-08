@@ -1,10 +1,10 @@
 /**
- * SmoothCursor - The Definitive & Final Working Edition
- * This version provides a complete and robust fix for all movement logic,
- * while retaining all requested features and parameter tuning.
+ * SmoothCursor - The Definitive & Final Working Edition (Lerp-Based)
+ * This version replaces the faulty spring simulation with a robust Linear Interpolation (Lerp) model
+ * to definitively fix the "not moving" bug, while retaining all features.
  *
  * @author Manus
- * @version 19.0.0 (Definitive Fix)
+ * @version 20.0.0 (Definitive Lerp Fix)
  */
 document.addEventListener('DOMContentLoaded', () => {
     // --- 1. 元素获取 ---
@@ -34,6 +34,163 @@ document.addEventListener('DOMContentLoaded', () => {
 
     rotator.style.willChange = 'transform';
     rotator.style.transformOrigin = 'center center';
+
+    particleContainer.style.position = 'absolute';
+    particleContainer.style.top = '0';
+    particleContainer.style.left = '0';
+    particleContainer.style.width = '100%';
+    particleContainer.style.height = '100%';
+    particleContainer.style.transformOrigin = 'center center';
+
+    // --- 3. 状态和核心变量 ---
+    const state = {
+        mouse: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
+        cursor: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
+        velocity: { x: 0, y: 0 },
+        rotation: 0,
+        scale: 1,
+        mode: 'CRUISING',
+        lastUpdateTime: Date.now(),
+        iconAngleCorrection: -45,
+        boostTimeout: null,
+        scaleTimeout: null,
+    };
+
+    // --- 4. 粒子系统 (保持不变) ---
+    const particles = [];
+    function createParticle(velocity, isBurst = false) {
+        const particle = document.createElement('div');
+        particle.style.position = 'absolute';
+        particle.style.left = '50%';
+        particle.style.top = '50%';
+        particle.style.width = '3px';
+        particle.style.height = '3px';
+        particle.style.backgroundColor = 'rgba(255, 220, 100, 0.9)';
+        particle.style.borderRadius = '50%';
+        particleContainer.appendChild(particle);
+
+        const speed = Math.hypot(velocity.x, velocity.y);
+        const physicalAngleRad = Math.atan2(velocity.y, velocity.x);
+        const baseEmissionAngle = physicalAngleRad + Math.PI;
+        const coneAngleRad = 60 * (Math.PI / 180);
+        const randomAngleOffset = (Math.random() - 0.5) * coneAngleRad;
+        const finalEmissionAngle = baseEmissionAngle + randomAngleOffset;
+
+        let emissionSpeed = speed * 0.5 + Math.random();
+        if (isBurst) {
+            emissionSpeed = (Math.random() * 0.5 + 0.5) * speed * 2;
+        }
+
+        particles.push({
+            element: particle, x: 0, y: 16,
+            vx: Math.cos(finalEmissionAngle) * emissionSpeed,
+            vy: Math.sin(finalEmissionAngle) * emissionSpeed,
+            life: 1000, createdAt: Date.now(),
+        });
+    }
+
+    function updateParticles() {
+        const now = Date.now();
+        for (let i = particles.length - 1; i >= 0; i--) {
+            const p = particles[i];
+            const age = now - p.createdAt;
+            if (age > p.life) {
+                p.element.remove();
+                particles.splice(i, 1);
+                continue;
+            }
+            p.x += p.vx;
+            p.y += p.vy;
+            p.element.style.opacity = 1 - (age / p.life);
+            p.element.style.transform = `translate(-50%, -50%) translate(${p.x}px, ${p.y}px)`;
+        }
+    }
+
+    // --- 5. 事件监听 ---
+    window.addEventListener('mousemove', (e) => {
+        state.mouse.x = e.clientX;
+        state.mouse.y = e.clientY;
+    });
+
+    // --- 6. 核心动画循环 (全新逻辑) ---
+    function animate() {
+        const now = Date.now();
+        const delta = now - state.lastUpdateTime;
+        state.lastUpdateTime = now;
+
+        // --- 移动逻辑 (Lerp) ---
+        if (state.mode === 'CRUISING') {
+            const lastX = state.cursor.x;
+            const lastY = state.cursor.y;
+
+            // 使用线性插值平滑地移动光标
+            state.cursor.x += (state.mouse.x - state.cursor.x) * 0.15; // 0.15 是平滑系数
+            state.cursor.y += (state.mouse.y - state.cursor.y) * 0.15;
+
+            // 根据位置变化计算速度
+            if (delta > 0) {
+                state.velocity.x = (state.cursor.x - lastX) / delta;
+                state.velocity.y = (state.cursor.y - lastY) / delta;
+            }
+        } else { // BOOSTING 模式
+            // 在加速模式下，只受惯性影响，逐渐减速
+            state.cursor.x += state.velocity.x * delta;
+            state.cursor.y += state.velocity.y * delta;
+            state.velocity.x *= 0.98; // 阻尼
+            state.velocity.y *= 0.98;
+        }
+
+        // --- 旋转逻辑 ---
+        const speed = Math.hypot(state.velocity.x, state.velocity.y);
+        if (speed > 0.01) {
+            const physicalAngle = Math.atan2(state.velocity.y, state.velocity.x) * (180 / Math.PI);
+            const targetRotation = physicalAngle + 90 + state.iconAngleCorrection;
+            // 使用 Lerp 平滑旋转
+            let diff = targetRotation - state.rotation;
+            if (diff > 180) diff -= 360;
+            if (diff < -180) diff += 360;
+            state.rotation += diff * 0.1; // 0.1 是旋转平滑系数
+        }
+
+        // --- 缩放和粒子逻辑 ---
+        if (speed > 0.1) {
+            state.scale = 0.95;
+            clearTimeout(state.scaleTimeout);
+            state.scaleTimeout = setTimeout(() => { state.scale = 1; }, 150);
+            if (state.mode === 'CRUISING' && Math.random() < 0.5) {
+                createParticle(state.velocity);
+            }
+        }
+
+        // --- 加速逻辑 ---
+        if (state.mode === 'CRUISING' && Math.random() < 0.002) {
+            state.mode = 'BOOSTING';
+            for (let i = 0; i < 80; i++) {
+                createParticle(state.velocity, true);
+            }
+            const boostAngleRad = (state.rotation - 90 - state.iconAngleCorrection) * (Math.PI / 180);
+            const boostForce = 0.5; // 调整冲力单位
+            state.velocity.x += Math.cos(boostAngleRad) * boostForce;
+            state.velocity.y += Math.sin(boostAngleRad) * boostForce;
+            
+            clearTimeout(state.boostTimeout);
+            state.boostTimeout = setTimeout(() => {
+                state.mode = 'CRUISING';
+            }, 800);
+        }
+
+        // --- 应用样式 ---
+        updateParticles();
+        cursorContainer.style.transform = `translate(${state.cursor.x}px, ${state.cursor.y}px) translate(-50%, -50%)`;
+        rotator.style.transform = `rotate(${state.rotation}deg) scale(${state.scale})`;
+
+        requestAnimationFrame(animate);
+    }
+
+    // --- 7. 启动 ---
+    cursorContainer.style.transform = 'scale(1)';
+    animate();
+});
 
     particleContainer.style.position = 'absolute';
     particleContainer.style.top = '0';

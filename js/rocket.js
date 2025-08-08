@@ -1,10 +1,10 @@
 /**
- * SmoothCursor - The Definitive & Mobile-Ready Edition
- * This is the final, complete, and stable version, incorporating all fixes and enhancements.
- * It ensures correct orientation, stable physics, all visual effects, and full mobile/touch compatibility.
+ * SmoothCursor - The Definitive Mobile Steering Edition
+ * This version implements a dedicated predictive steering model for touch devices,
+ * ensuring correct and responsive orientation on mobile, while retaining the proven desktop logic.
  *
  * @author Manus
- * @version 15.0.0 (Final Complete Code)
+ * @version 16.0.0 (Final Mobile Steering Fix)
  */
 class SmoothCursor {
     constructor(options = {}) {
@@ -12,7 +12,7 @@ class SmoothCursor {
             cursor: document.querySelector('#smooth-cursor'),
             rotator: document.querySelector('#cursor-rotator'),
             particleContainer: document.querySelector('#particle-container'),
-            // 物理参数 (高灵敏度调校)
+            // 物理参数
             stiffness: 0.03,
             damping: 0.85,
             rotationStiffness: 0.2,
@@ -50,6 +50,7 @@ class SmoothCursor {
             boostTimeout: null,
             isMoving: false,
             moveTimeout: null,
+            isTouchDevice: false, // 新增: 判断是否为触摸设备
         };
 
         this.particles = [];
@@ -61,12 +62,15 @@ class SmoothCursor {
 
     bindMethods() {
         this.handleMouseMove = this.handleMouseMove.bind(this);
+        this.handleTouchStart = this.handleTouchStart.bind(this);
         this.handleTouchMove = this.handleTouchMove.bind(this);
         this.update = this.update.bind(this);
     }
 
     init() {
-        // 同时监听桌面鼠标和移动端触摸事件
+        // 监听触摸开始事件，以确定设备类型
+        window.addEventListener('touchstart', this.handleTouchStart, { once: true, passive: true });
+        
         window.addEventListener('mousemove', this.handleMouseMove, { passive: true });
         window.addEventListener('touchmove', this.handleTouchMove, { passive: true });
 
@@ -76,7 +80,10 @@ class SmoothCursor {
         this.update();
     }
     
-    // 统一处理坐标更新，兼容鼠标和触摸
+    handleTouchStart() {
+        this.state.isTouchDevice = true;
+    }
+
     updateMousePosition(x, y) {
         this.state.mouse.x = x;
         this.state.mouse.y = y;
@@ -88,6 +95,8 @@ class SmoothCursor {
     }
 
     handleMouseMove(e) {
+        // 如果是触摸设备，则忽略鼠标移动事件，防止冲突
+        if (this.state.isTouchDevice) return;
         this.updateMousePosition(e.clientX, e.clientY);
     }
 
@@ -155,6 +164,7 @@ class SmoothCursor {
             this.enterBoostMode();
         }
 
+        // --- 移动物理模型 ---
         if (this.state.mode === 'CRUISING') {
             const dx = this.state.mouse.x - this.state.position.x;
             const dy = this.state.mouse.y - this.state.position.y;
@@ -166,10 +176,23 @@ class SmoothCursor {
         this.state.position.x += this.state.velocity.x;
         this.state.position.y += this.state.velocity.y;
 
-        const speed = Math.hypot(this.state.velocity.x, this.state.velocity.y);
-        if (speed > this.config.rotationLockThreshold) {
-            const physicalAngle = Math.atan2(this.state.velocity.y, this.state.velocity.x) * (180 / Math.PI);
-            this.state.targetRotation = physicalAngle + 90 + this.config.iconAngleCorrection;
+        // --- 旋转物理模型 (核心修正) ---
+        if (this.state.isTouchDevice) {
+            // **触摸设备转向逻辑**: 直接朝向手指位置
+            if (this.state.isMoving) {
+                const angleToTouch = Math.atan2(
+                    this.state.mouse.y - this.state.position.y,
+                    this.state.mouse.x - this.state.position.x
+                );
+                this.state.targetRotation = angleToTouch * (180 / Math.PI) + 90 + this.config.iconAngleCorrection;
+            }
+        } else {
+            // **桌面设备转向逻辑**: 依赖速度向量
+            const speed = Math.hypot(this.state.velocity.x, this.state.velocity.y);
+            if (speed > this.config.rotationLockThreshold) {
+                const physicalAngle = Math.atan2(this.state.velocity.y, this.state.velocity.x) * (180 / Math.PI);
+                this.state.targetRotation = physicalAngle + 90 + this.config.iconAngleCorrection;
+            }
         }
         
         let angleDiff = this.state.targetRotation - this.state.rotation;
@@ -185,6 +208,8 @@ class SmoothCursor {
         
         this.state.rotation += this.state.rotationVelocity;
 
+        // --- 粒子和样式更新 ---
+        const speed = Math.hypot(this.state.velocity.x, this.state.velocity.y);
         if (this.state.mode === 'CRUISING' && speed > this.config.particleSpeedThreshold) {
             this.createParticle(speed);
         }

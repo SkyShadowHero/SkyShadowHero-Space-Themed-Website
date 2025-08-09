@@ -49,7 +49,7 @@
         <div class="text-white max-w-9/10 container mx-auto flex flex-col items-center justify-center text-center">
             <img src="/avatar.webp" alt="avatar" class="duration-100 ease-in hover:scale-110 active:scale-110 w-48 rounded-full mb-4 shadow-lg/30">
             <div>
-                <p class="mb-10 -rotate-y-4 -rotate-z-8 hover:rotate-y-0 hover:rotate-z-0 hover:scale-110 active:rotate-y-0 active:rotate-z-0 active:scale-110 duration-500 text-2xl text-center text-shadow-lg/30">
+                <p class="mb-10 -rotate-y-4 rotate-z-346 hover:rotate-y-0 hover:rotate-z-0 hover:scale-110 active:rotate-y-0 active:rotate-z-0 active:scale-110 duration-500 text-2xl text-center text-shadow-lg/30">
                     I am SkyShadowHero
                 </p>
                 <p class="mb-10 rotate-y-8 rotate-z-3 hover:rotate-y-0 hover:rotate-z-0 hover:scale-110 active:rotate-y-0 active:rotate-z-0 active:scale-110 duration-500 text-2xl text-center text-shadow-lg/30">
@@ -126,23 +126,14 @@
     <script src="/js/myjs.js"></script>
     
     <div id="smooth-cursor" 
-        class="fixed top-0 left-0 z-1 pointer-events-none" 
-        style="--x: 50vw; --y: 50vh; transform: translate(var(--x), var(--y)) translate(-50%, -50%); will-change: transform;">
+        class="fixed top-0 left-0 z-1 pointer-events-none transition-transform duration-300 ease-out" 
+        style="--x: 50vw; --y: 50vh; --scale: 0; --rotate: 0deg; transform: translate(var(--x), var(--y)) translate(-50%, -50%) scale(var(--scale)) rotate(var(--rotate)); will-change: transform;">
         
-        <!-- 旋转和缩放的容器 -->
-        <div id="cursor-rotator" 
-            class="transition-transform duration-200"
-            style="--rotate: 0deg; --scale: 1; transform: rotate(var(--rotate)) scale(var(--scale)); transform-origin: center center;">
-            
-            <!-- SVG 图标本身 (移除所有内联 transform) -->
-            <svg class="w-8 h-8 text-black drop-shadow-md" aria-hidden="true">
-                <use xlink:href="#icon-huojianjiasu"></use>
-            </svg>
-
-            <!-- 粒子发射的容器 -->
-            <div id="particle-container" class="absolute top-0 left-0 w-full h-full"></div>
-        </div>
+        <svg class="w-8 h-8 text-black drop-shadow-md" aria-hidden="true">
+            <use xlink:href="#icon-huojianjiasu"></use>
+        </svg>
     </div>
+    <div id="particle-container" class="fixed top-0 left-0 w-full h-full pointer-events-none z-1"></div>
     <script src="/js/rocket.js"></script>
 </body>
 </html>

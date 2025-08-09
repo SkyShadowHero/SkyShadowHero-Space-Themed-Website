@@ -70,3 +70,23 @@ footer {
     }
 }
 
+
+/* 粒子基础样式 */
+.particle {
+    position: absolute;
+    /* background-color: black;  <-- 移除这一行 */
+    width: 5px;  /* 稍微增大粒子，让颜色更明显 */
+    height: 5px;
+    border-radius: 50%;
+    opacity: 1;
+    will-change: transform, opacity;
+    animation: fadeOut 1s forwards ease-out; /* 动画时间稍长，让火花更持久 */
+}
+
+/* 粒子消失的动画 (保持不变) */
+@keyframes fadeOut {
+    to {
+        transform: var(--transform-end);
+        opacity: 0;
+    }
+}

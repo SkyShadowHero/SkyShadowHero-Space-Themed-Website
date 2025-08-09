@@ -1,186 +1,163 @@
 /**
- * SmoothCursor - The Definitive Edition
- * This is the final, stable, and fully-featured version, incorporating all fixes and enhancements.
- * It ensures correct orientation, stable physics, and all requested visual effects.
+ * SmoothCursor Class (v8.1.0 - Corrected Orientation & Tuned Pulse)
+ * Features corrected icon orientation, a powerful pulse, and a vibrant spark burst.
  *
  * @author Manus
- * @version 14.0.0 (Final Production Release)
+ * @version 8.1.0
  */
 class SmoothCursor {
     constructor(options = {}) {
         this.config = {
-            cursor: document.querySelector('#smooth-cursor'),
-            rotator: document.querySelector('#cursor-rotator'),
+            element: document.querySelector('#smooth-cursor'),
             particleContainer: document.querySelector('#particle-container'),
-            // --- 物理参数 (高灵敏度调校) ---
-            stiffness: 0.01,
+            
+            stiffness: 0.08,
             damping: 0.85,
-            rotationStiffness: 0.4,   // 高刚度，实现快速转向
-            rotationDamping: 0.6,     // 低阻尼，允许更快的旋转速度
-            // --- 视觉与校准 ---
-            iconAngleCorrection: -45, // 补偿图标本身朝向右上45度的问题
-            // --- 粒子参数 ---
-            particleLife: 1000,
-            particleSize: 3,
-            particleColor: 'rgba(255, 220, 100, 0.9)',
-            rocketSize: 32,
-            particleEmissionCone: 60, // 粒子喷射呈60度锥形
-            // --- 游戏逻辑参数 ---
-            particleSpeedThreshold: 30,
-            rotationLockThreshold: 0.4, // 速度低于此值时锁定旋转，防止抖动
-            boostChance: 0.0015,
-            boostDuration: 800,
-            boostForce: 60,
-            boostParticleBurst: 50,     // 加速时一次性爆发50个粒子
+            
+            // 1. 应用您提供的新脉冲配置
+            pulseChance: 0.002,
+            pulseMagnitude: 20,   // 您的新参数
+            pulseDuration: 400,   // 您的新参数
+            
+            particleCount: 50,
+            particleSpread: 250,
+            particleColors: [
+                '#FFD700', '#FFA500', '#FF6347', '#FF4500', '#FFFFFF'
+            ],
+
+            // 2. 新增：旋转偏移量，用于校正图标初始朝向
+            // 如果图标默认朝向左上角 (-45°), 我们需要加 45° 让它朝上 (0°)
+            rotationOffset: -45, // <--- 在这里调整校正角度
+
+            ...options,
         };
 
-        if (!this.config.cursor || !this.config.rotator || !this.config.particleContainer) {
-            console.error('SmoothCursor: Critical elements not found.');
+        if (!this.config.element || !this.config.particleContainer) {
+            console.error('SmoothCursor: Element or Particle Container not found.');
             return;
         }
 
         this.state = {
-            mouse: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
+            target: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
             position: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
             velocity: { x: 0, y: 0 },
-            rotation: 0,
-            targetRotation: 0,
-            rotationVelocity: 0,
-            mode: 'CRUISING',
-            boostTimeout: null,
-            isMoving: false,
-            moveTimeout: null,
+            // 将初始旋转设置为偏移量，这样页面加载时它就是正的
+            rotation: this.config.rotationOffset, 
+            targetRotation: this.config.rotationOffset,
         };
 
-        this.particles = [];
-        this.animationFrame = null;
+        this.isPulsing = false;
 
-        this.bindMethods();
+        this.handleMouseMove = this.handleMouseMove.bind(this);
+        this.update = this.update.bind(this);
+
         this.init();
     }
 
-    bindMethods() { this.handleMouseMove = this.handleMouseMove.bind(this); this.update = this.update.bind(this); }
-    init() { window.addEventListener('mousemove', this.handleMouseMove, { passive: true }); window.addEventListener('load', () => { this.config.rotator.style.setProperty('--scale', '1'); }); this.update(); }
-    
+    init() {
+        window.addEventListener('mousemove', this.handleMouseMove, { passive: true });
+        window.addEventListener('load', () => {
+            this.config.element.style.setProperty('--scale', '1');
+        }, { once: true });
+        this.update();
+    }
+
     handleMouseMove(e) {
-        this.state.mouse.x = e.clientX;
-        this.state.mouse.y = e.clientY;
-        this.state.isMoving = true;
-        clearTimeout(this.state.moveTimeout);
-        this.state.moveTimeout = setTimeout(() => {
-            this.state.isMoving = false;
-        }, 100);
-    }
-
-    enterBoostMode() {
-        if (this.state.mode === 'BOOSTING') return;
-        this.state.mode = 'BOOSTING';
-        // 粒子爆发
-        for (let i = 0; i < this.config.boostParticleBurst; i++) {
-            this.createParticle(this.config.boostForce * 5, true);
-        }
-        // 施加一次性冲力 (使用已校准的物理角度)
-        const boostAngleRad = (this.state.rotation - 90 - this.config.iconAngleCorrection) * (Math.PI / 180);
-        this.state.velocity.x += Math.cos(boostAngleRad) * this.config.boostForce;
-        this.state.velocity.y += Math.sin(boostAngleRad) * this.config.boostForce;
-        // 设定计时器恢复巡航
-        clearTimeout(this.state.boostTimeout);
-        this.state.boostTimeout = setTimeout(() => {
-            this.state.mode = 'CRUISING';
-        }, this.config.boostDuration);
-    }
-
-    createParticle(speed, isBurst = false) {
-        const particle = document.createElement('div');
-        particle.style.position = 'absolute';
-        particle.style.left = '50%';
-        particle.style.top = '50%';
-        particle.style.width = `${this.config.particleSize}px`;
-        particle.style.height = `${this.config.particleSize}px`;
-        particle.style.backgroundColor = this.config.particleColor;
-        particle.style.borderRadius = '50%';
-        this.config.particleContainer.appendChild(particle);
-        const tailOffsetY = this.config.rocketSize / 2;
-        // 使用速度向量计算精确的物理角度
-        const physicalAngleRad = Math.atan2(this.state.velocity.y, this.state.velocity.x);
-        const baseEmissionAngle = physicalAngleRad + Math.PI; // 反方向
-        const coneAngleRad = this.config.particleEmissionCone * (Math.PI / 180);
-        const randomAngleOffset = (Math.random() - 0.5) * coneAngleRad;
-        const finalEmissionAngle = baseEmissionAngle + randomAngleOffset;
-        let emissionSpeed = speed * 0.05 + Math.random();
-        if (isBurst) { emissionSpeed = (Math.random() * 0.5 + 0.5) * speed * 0.1; }
-        this.particles.push({
-            element: particle, x: 0, y: tailOffsetY,
-            vx: Math.cos(finalEmissionAngle) * emissionSpeed,
-            vy: Math.sin(finalEmissionAngle) * emissionSpeed,
-            life: this.config.particleLife, createdAt: Date.now(),
-        });
-    }
-
-    updateParticles() {
-        const now = Date.now();
-        for (let i = this.particles.length - 1; i >= 0; i--) {
-            const p = this.particles[i];
-            const age = now - p.createdAt;
-            if (age > p.life) { p.element.remove(); this.particles.splice(i, 1); continue; }
-            p.x += p.vx; p.y += p.vy;
-            p.element.style.opacity = 1 - (age / p.life);
-            p.element.style.transform = `translate(-50%, -50%) translate(${p.x}px, ${p.y}px)`;
+        if (!this.isPulsing) {
+            this.state.target.x = e.clientX;
+            this.state.target.y = e.clientY;
         }
     }
 
     update() {
-        // 随机触发加速
-        if (this.state.mode === 'CRUISING' && Math.random() < this.config.boostChance) {
-            this.enterBoostMode();
-        }
+        this.tryRandomPulse();
 
-        // --- 移动物理模型 (惯性冲刺逻辑) ---
-        if (this.state.mode === 'CRUISING') {
-            const dx = this.state.mouse.x - this.state.position.x;
-            const dy = this.state.mouse.y - this.state.position.y;
-            this.state.velocity.x += dx * this.config.stiffness;
-            this.state.velocity.y += dy * this.config.stiffness;
-        }
-        this.state.velocity.x *= this.config.damping;
-        this.state.velocity.y *= this.config.damping;
-        this.state.position.x += this.state.velocity.x;
-        this.state.position.y += this.state.velocity.y;
+        const { position, target, velocity } = this.state;
+        const currentDamping = this.isPulsing ? 0.98 : this.config.damping;
+        const currentStiffness = this.isPulsing ? 0 : this.config.stiffness;
 
-        // --- 旋转物理模型 (稳定与灵敏的核心) ---
-        const speed = Math.hypot(this.state.velocity.x, this.state.velocity.y);
-        if (speed > this.config.rotationLockThreshold) {
-            const physicalAngle = Math.atan2(this.state.velocity.y, this.state.velocity.x) * (180 / Math.PI);
-            // 最终的、绝对正确的旋转公式
-            this.state.targetRotation = physicalAngle + 90 + this.config.iconAngleCorrection;
+        const dx = target.x - position.x;
+        const dy = target.y - position.y;
+        
+        velocity.x = (velocity.x + dx * currentStiffness) * currentDamping;
+        velocity.y = (velocity.y + dy * currentStiffness) * currentDamping;
+        
+        position.x += velocity.x;
+        position.y += velocity.y;
+
+        // --- 旋转计算 ---
+        const speed = Math.hypot(velocity.x, velocity.y);
+        if (speed > 0.1) {
+            // 计算出的目标角度 (atan2) 是基于笛卡尔坐标系的，0度朝右
+            // 我们加上 90 度让它朝上，这是之前就有的逻辑
+            const angleInDegrees = Math.atan2(velocity.y, velocity.x) * (180 / Math.PI) + 90;
+            // 3. 在这里应用最终的校正偏移
+            this.state.targetRotation = angleInDegrees + this.config.rotationOffset;
         }
         
+        // 平滑过渡到目标角度
         let angleDiff = this.state.targetRotation - this.state.rotation;
-        angleDiff -= Math.round(angleDiff / 360) * 360; // 确保走最短路径旋转
-        
-        const rotationalForce = angleDiff * this.config.rotationStiffness;
-        this.state.rotationVelocity += rotationalForce;
-        this.state.rotationVelocity *= this.config.rotationDamping;
+        if (angleDiff > 180) angleDiff -= 360;
+        if (angleDiff < -180) angleDiff += 360;
+        this.state.rotation += angleDiff * 0.1; // 使用 0.1 的固定旋转速度
 
-        // 主动旋转制动，防止静止时抖动
-        if (!this.state.isMoving && Math.abs(this.state.rotationVelocity) < 0.01) {
-            this.state.rotationVelocity = 0;
+        // 更新 CSS
+        const style = this.config.element.style;
+        style.setProperty('--x', `${position.x}px`);
+        style.setProperty('--y', `${position.y}px`);
+        style.setProperty('--rotate', `${this.state.rotation}deg`);
+
+        requestAnimationFrame(this.update);
+    }
+
+    tryRandomPulse() {
+        if (!this.isPulsing && Math.random() < this.config.pulseChance) {
+            this.isPulsing = true;
+
+            const angle = Math.random() * 2 * Math.PI;
+            this.state.velocity.x += Math.cos(angle) * this.config.pulseMagnitude;
+            this.state.velocity.y += Math.sin(angle) * this.config.pulseMagnitude;
+
+            this.createParticleBurst(this.state.position.x, this.state.position.y);
+
+            setTimeout(() => {
+                this.isPulsing = false;
+            }, this.config.pulseDuration);
         }
-        
-        this.state.rotation += this.state.rotationVelocity;
+    }
 
-        // --- 粒子和样式更新 ---
-        if (this.state.mode === 'CRUISING' && speed > this.config.particleSpeedThreshold) {
-            this.createParticle(speed);
+    createParticleBurst(x, y) {
+        for (let i = 0; i < this.config.particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+
+            const randomColor = this.config.particleColors[Math.floor(Math.random() * this.config.particleColors.length)];
+            particle.style.backgroundColor = randomColor;
+
+            const angle = Math.random() * 2 * Math.PI;
+            const distance = Math.random() * this.config.particleSpread;
+            const endX = Math.cos(angle) * distance;
+            const endY = Math.sin(angle) * distance;
+            const endScale = Math.random() * 0.5;
+
+            particle.style.left = `${x}px`;
+            particle.style.top = `${y}px`;
+            particle.style.setProperty('--transform-end', `translate(${endX}px, ${endY}px) scale(${endScale})`);
+
+            this.config.particleContainer.appendChild(particle);
+
+            particle.addEventListener('animationend', () => {
+                particle.remove();
+            });
         }
-        this.updateParticles();
+    }
 
-        this.config.cursor.style.setProperty('--x', `${this.state.position.x}px`);
-        this.config.cursor.style.setProperty('--y', `${this.state.position.y}px`);
-        this.config.rotator.style.setProperty('--rotate', `${this.state.rotation}deg`);
-        
-        this.animationFrame = requestAnimationFrame(this.update);
+    destroy() {
+        // ... (destroy logic)
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => { new SmoothCursor(); });
+// --- 初始化 ---
+document.addEventListener('DOMContentLoaded', () => {
+    const cursor = new SmoothCursor();
+});

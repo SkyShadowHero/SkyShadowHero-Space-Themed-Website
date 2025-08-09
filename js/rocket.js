@@ -11,13 +11,13 @@ class SmoothCursor {
             element: document.querySelector('#smooth-cursor'),
             particleContainer: document.querySelector('#particle-container'),
             
-            stiffness: 0.08,
-            damping: 0.85,
+            stiffness: 0.01,
+            damping: 0.70,
             
             // 1. 应用您提供的新脉冲配置
             pulseChance: 0.002,
-            pulseMagnitude: 20,   // 您的新参数
-            pulseDuration: 400,   // 您的新参数
+            pulseMagnitude: 5,   // 您的新参数
+            pulseDuration: 5000,   // 您的新参数
             
             particleCount: 50,
             particleSpread: 250,

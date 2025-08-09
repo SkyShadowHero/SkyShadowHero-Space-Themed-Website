@@ -2,8 +2,6 @@
  * SmoothCursor Class (v8.1.0 - Corrected Orientation & Tuned Pulse)
  * Features corrected icon orientation, a powerful pulse, and a vibrant spark burst.
  *
- * @author Manus
- * @version 8.1.0
  */
 class SmoothCursor {
     constructor(options = {}) {
@@ -11,7 +9,7 @@ class SmoothCursor {
             element: document.querySelector('#smooth-cursor'),
             particleContainer: document.querySelector('#particle-container'),
             
-            stiffness: 0.01,
+            stiffness: 0.005,
             damping: 0.70,
             
             // 1. 应用您提供的新脉冲配置

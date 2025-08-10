@@ -1,7 +1,7 @@
 /**
  * SmoothCursor Class (v8.1.0 - Corrected Orientation & Tuned Pulse)
  * Features corrected icon orientation, a powerful pulse, and a vibrant spark burst.
- *
+ *?
  */
 class SmoothCursor {
     constructor(options = {}) {
